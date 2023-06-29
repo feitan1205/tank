@@ -5,6 +5,7 @@
 #include "InputState.h"
 
 
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	ChangeWindowMode(true);
