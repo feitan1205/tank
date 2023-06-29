@@ -29,6 +29,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (ProcessMessage() != -1)
 	{
+		LONGLONG  time = GetNowHiPerformanceCount();
+
 		ClearDrawScreen();
 
 		input.Update();
@@ -37,6 +39,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sceneManager.Draw();
 
 		ScreenFlip();
+
+		// escキーを押したら終了する
+		if (CheckHitKey(KEY_INPUT_ESCAPE))	break;
+		// fpsを60に固定
+		while (GetNowHiPerformanceCount() - time < 16667)
+		{
+		}
 	}
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理

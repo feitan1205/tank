@@ -46,22 +46,6 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	}
 	_backScreen->Updata();
 
-	//プレイヤーと壁の当たり判定
-	for (int i = 0; i < _fieldSize.y; i++) {
-		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
-				if (AllCollision::CollCheck_Box_Circle(
-					_field->GetMinHitBox(i, j),
-					_field->GetMaxHitBox(i, j),
-					_player->GetPos(),
-					_player->GetCircleScale()))
-				{
-					_player->UpdateCancel();
-				}
-			}
-		}
-	}
-
 	//ショット同士の当たり判定
 	for (int i = 0; i < shots.size(); i++) {
 		for (int j = 0; j < shots.size(); j++) {
@@ -129,6 +113,7 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	_player = new Player();
 	_field = new Field();
 	_fieldSize = _field->GetFieldSize();
+	_player->SetFieldData(_field);
 	_backScreen = new BackScreenDraw();
 	_backScreen->SetPlayerData(_player);
 }
