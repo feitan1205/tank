@@ -32,6 +32,8 @@ InputState::InputState()
 	inputMapTable_[InputType::left] = { {InputCategory::keybd, KEY_INPUT_A},
 										{InputCategory::pad, PAD_INPUT_LEFT } };	//←
 
+	inputMapTable_[InputType::guide] = { {InputCategory::mouse, MOUSE_INPUT_RIGHT} };
+
 	//一時マップテーブルにコピー
 	tempMapTable_ = inputMapTable_;
 

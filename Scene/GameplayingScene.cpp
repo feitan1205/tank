@@ -110,6 +110,19 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	Scene(manager),
 	updateFunc_(&GameplayingScene::FadeInUpdate)
 {
+
+	//////////////// カメラの設定 //////////////////
+
+	// カメラからどれだけ離れたところ( Near )から、 どこまで( Far )のものを描画するかを設定
+	SetCameraNearFar(5.0f, 2800.0f);
+
+	// カメラの位置、どこを見ているかを設定する
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 445, -130), VGet(0, 0, 0));
+
+	// カメラの視野角を設定(ラジアン)
+	SetupCamera_Perspective(60.0f * DX_PI_F / 180.0f);
+
+
 	_player = new Player();
 	_field = new Field();
 	_fieldSize = _field->GetFieldSize();
@@ -128,8 +141,6 @@ void GameplayingScene::Update(const InputState& input)
 void GameplayingScene::Draw()
 {
 	
-	//プレイヤー描画
-	_player->Draw();
 	//フィールド描画
 	_field->Draw();
 	//ショット描画
@@ -137,6 +148,8 @@ void GameplayingScene::Draw()
 		shot->Draw();
 	}
 	_backScreen->Draw();
+	//プレイヤー描画
+	_player->Draw();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);
 	DrawBox(0, 0, 640, 480, fadeColor_, true);

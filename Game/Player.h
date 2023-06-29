@@ -26,8 +26,11 @@ public:
 
 private:
 
+	int _modelH;
+
 	VECTOR _pos;
 	VECTOR _tempPos;
+	VECTOR _modelPos;
 	VECTOR _vec;
 	Field* _field;
 	VECTOR _fieldSize;
