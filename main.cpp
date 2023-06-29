@@ -8,7 +8,13 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	ChangeWindowMode(true);
+	// windowモード設定
+	ChangeWindowMode(Game::kWindowMode);
+	// ウインドウ名設定
+	SetMainWindowText(Game::kTitleText);
+	// 画面サイズの設定
+	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
+
 	if (DxLib_Init() == -1)
 	{
 		return -1;

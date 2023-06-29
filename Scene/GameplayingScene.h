@@ -1,5 +1,17 @@
 #pragma once
 #include "Scene.h"
+#include "DxLib.h"
+#include <memory>
+#include <vector>
+
+namespace {
+	constexpr int maxShotNum = 6;
+}
+
+class Player;
+class Field;
+class BackScreenDraw;
+class Shot;
 
 /// <summary>
 /// ゲーム中シーン
@@ -8,10 +20,14 @@ class GameplayingScene : public Scene
 {
 private:
 
-	float px, py;
-	float vx, vy;
+	Player* _player;
+	Field* _field;
+	VECTOR _fieldSize;
+	int _mousePosX;
+	int _mousePosY;
+	BackScreenDraw* _backScreen;
 
-	int playingH_ = -1;
+	std::vector<std::shared_ptr<Shot>> shots;
 
 	unsigned int  fadeColor_ = 0x000000; //フェードの色(デフォ黒)
 

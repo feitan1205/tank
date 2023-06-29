@@ -5,6 +5,13 @@
 #include "SceneManager.h"
 #include "PauseScene.h"
 #include <DxLib.h>
+#include <vector>
+#include <memory>
+#include "../Game/AllCollision.h"
+#include "../Game/Player.h"
+#include "../Game/Field.h"
+#include "../Game/Shot.h"
+#include "../Game/BackScreenDraw.h"
 
 void GameplayingScene::FadeInUpdate(const InputState& input)
 {
@@ -16,18 +23,84 @@ void GameplayingScene::FadeInUpdate(const InputState& input)
 }
 void GameplayingScene::NormalUpdate(const InputState& input)
 {
-	vy += 0.1f;
-	py += vy;
-	if (py >= 400)
-	{
-		vy = -9.0;
+	
+	GetMousePoint(&_mousePosX, &_mousePosY);
+	_backScreen->SetMousePos(_mousePosX, _mousePosY);
+
+	//ショット発射
+	if (shots.size() < maxShotNum) {
+		if (input.IsTriggered(InputType::next)) {
+			shots.push_back(std::make_shared<Shot>());
+			shots.back()->Start(_player->GetPos(), VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0));
+			shots.back()->SetFieldData(_field);
+		}
 	}
 
-	if (input.IsTriggered(InputType::next))
-	{
-		updateFunc_ = &GameplayingScene::FadeOutUpdate;
-		fadeColor_ = 0xff0000;
+	//プレイヤーアップデート
+	_player->Update(input);
+	//フィールドアップデート
+	_field->Update();
+	//ショットアップデート
+	for (auto shot : shots) {
+		shot->Update();
 	}
+	_backScreen->Updata();
+
+	//プレイヤーと壁の当たり判定
+	for (int i = 0; i < _fieldSize.y; i++) {
+		for (int j = 0; j < _fieldSize.x; j++) {
+			if (_field->GetFieldData(i, j)) {
+				if (AllCollision::CollCheck_Box_Circle(
+					_field->GetMinHitBox(i, j),
+					_field->GetMaxHitBox(i, j),
+					_player->GetPos(),
+					_player->GetCircleScale()))
+				{
+					_player->UpdateCancel();
+				}
+			}
+		}
+	}
+
+	//ショット同士の当たり判定
+	for (int i = 0; i < shots.size(); i++) {
+		for (int j = 0; j < shots.size(); j++) {
+			if (i == j)continue;
+			if (AllCollision::CollCheck_Circle_Circle(
+				shots[i]->GetPos(),
+				shots[i]->GetCircleScale(),
+				shots[j]->GetPos(),
+				shots[j]->GetCircleScale())) {
+				shots[i]->ShotKill();
+				shots[j]->ShotKill();
+			}
+		}
+	}
+
+	for (int i = 0; i < shots.size(); i++) {
+
+		if (AllCollision::CollCheck_Circle_Circle(
+			shots[i]->GetPos(),
+			shots[i]->GetCircleScale(),
+			_player->GetPos(),
+			_player->GetCircleScale())) {
+			printfDx("dasdfasadf");
+		}
+
+	}
+
+	//ショット削除
+	auto rmIt = std::remove_if        // 条件に合致したものを消す
+	(shots.begin(),			// 対象はenemies_の最初から
+		shots.end(),			// 最後まで
+	   // 消えてもらう条件を表すラムダ式
+	   // trueだと消える。falseだと消えない
+		[](const std::shared_ptr<Shot>& shot)
+		{
+			return !shot->IsEnabled();
+		});
+	shots.erase(rmIt, shots.end());
+
 	if (input.IsTriggered(InputType::prev))
 	{
 		manager_.ChangeScene(new TitleScene(manager_));
@@ -53,11 +126,13 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	Scene(manager),
 	updateFunc_(&GameplayingScene::FadeInUpdate)
 {
-	px = 320;
-	py = 400;
-	vx = 0;
-	vy = 0;
+	_player = new Player();
+	_field = new Field();
+	_fieldSize = _field->GetFieldSize();
+	_backScreen = new BackScreenDraw();
+	_backScreen->SetPlayerData(_player);
 }
+
 
 
 void GameplayingScene::Update(const InputState& input)
@@ -67,9 +142,16 @@ void GameplayingScene::Update(const InputState& input)
 
 void GameplayingScene::Draw()
 {
-	DrawRotaGraph(320, 240, 0.5, 0.0, playingH_, true);
-
-	DrawCircle(px, py, 20, 0xaaffaa, true);
+	
+	//プレイヤー描画
+	_player->Draw();
+	//フィールド描画
+	_field->Draw();
+	//ショット描画
+	for (auto shot : shots) {
+		shot->Draw();
+	}
+	_backScreen->Draw();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);
 	DrawBox(0, 0, 640, 480, fadeColor_, true);

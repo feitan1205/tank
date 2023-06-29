@@ -20,16 +20,16 @@ InputState::InputState()
 	inputMapTable_[InputType::change] = { {InputCategory::keybd, KEY_INPUT_C},
 										{InputCategory::pad, PAD_INPUT_Z } };		//右ショルダー
 
-	inputMapTable_[InputType::up] = { {InputCategory::keybd, KEY_INPUT_UP},
+	inputMapTable_[InputType::up] = { {InputCategory::keybd, KEY_INPUT_W},
 										{InputCategory::pad, PAD_INPUT_UP } };		//↑
 
-	inputMapTable_[InputType::down] = { {InputCategory::keybd, KEY_INPUT_DOWN},
+	inputMapTable_[InputType::down] = { {InputCategory::keybd, KEY_INPUT_S},
 										{InputCategory::pad, PAD_INPUT_DOWN } };	//↓
 
-	inputMapTable_[InputType::right] = { {InputCategory::keybd, KEY_INPUT_RIGHT},
+	inputMapTable_[InputType::right] = { {InputCategory::keybd, KEY_INPUT_D},
 										{InputCategory::pad, PAD_INPUT_RIGHT } };	//→
 
-	inputMapTable_[InputType::left] = { {InputCategory::keybd, KEY_INPUT_LEFT},
+	inputMapTable_[InputType::left] = { {InputCategory::keybd, KEY_INPUT_A},
 										{InputCategory::pad, PAD_INPUT_LEFT } };	//←
 
 	//一時マップテーブルにコピー
