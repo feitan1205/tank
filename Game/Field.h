@@ -1,5 +1,7 @@
 #pragma once
 #include "DxLib.h"
+#include <vector>
+#include <memory>
 
 namespace {
 	constexpr int stageSizeX = 28;
@@ -42,6 +44,8 @@ private:
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	};
+
+	int _modelH[stageSizeY][stageSizeX];
 
 };
 
