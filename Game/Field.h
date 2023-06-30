@@ -8,6 +8,7 @@ namespace {
 	constexpr int stageSizeY = 16;
 	constexpr int blockSizeX = 32;
 	constexpr int blockSizeY = 32;
+	constexpr int fieldLayer = 3;
 }
 
 class Field
@@ -45,7 +46,7 @@ private:
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	};
 
-	int _modelH[stageSizeY][stageSizeX];
+	int _modelH[fieldLayer][stageSizeY][stageSizeX];
 
 };
 
