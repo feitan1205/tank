@@ -9,7 +9,7 @@ void OptionScene::Update(const InputState& input)
 	//次へのボタンが押されたら次のシーンへ行く
 	if (input.IsTriggered(InputType::prev))
 	{
-		manager_.ChangeScene(new TitleScene(manager_));
+		_manager.ChangeScene(new TitleScene(_manager));
 		return;
 	}
 }

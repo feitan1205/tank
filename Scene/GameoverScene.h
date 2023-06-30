@@ -9,21 +9,21 @@ class GameoverScene : public Scene
 private:
 
 
-	int gameOverH_ = -1;
+	int _gameOverH = -1;
 
 	static constexpr int fade_interval = 60;
 
-	int fadeTimer_ = fade_interval;
-	int fadeValue_ = 255;
+	int _fadeTimer = fade_interval;
+	int _fadeValue = 255;
 
-	unsigned int fadeColor_ = 0xff0000;
+	unsigned int _fadeColor = 0xff0000;
 
 	void FadeInUpdate(const InputState& input);
 	void NormalUpdate(const InputState& input);
 	void FadeOutUpdate(const InputState& input);
 
 	using UpdateFucn_t = void (GameoverScene::*)(const InputState&);
-	UpdateFucn_t updateFunc_;
+	UpdateFucn_t _updateFunc;
 
 public:
 	GameoverScene(SceneManager& manager);

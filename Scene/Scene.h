@@ -12,10 +12,10 @@ class InputState;	//入力ステート
 class Scene
 {
 protected:
-	SceneManager& manager_; //シーンマネーシャーへの参照
+	SceneManager& _manager; //シーンマネーシャーへの参照
 public:
 	Scene(SceneManager& manager) :
-		manager_(manager)
+		_manager(manager)
 	{
 	}
 	virtual ~Scene(){};

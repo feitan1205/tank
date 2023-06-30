@@ -16,7 +16,7 @@ void PauseScene::Update(const InputState& input)
 {
 	if (input.IsTriggered(InputType::pause))
 	{
-		manager_.PopScene();
+		_manager.PopScene();
 		return;
 	}
 }

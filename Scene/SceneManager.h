@@ -43,6 +43,6 @@ public:
 private:
 	//今実行中のシーンを切り替えていきたいので	
 	//参照ではなくポインタとして宣言
-	std::deque<Scene*> scene_;	
+	std::deque<Scene*> _scene;	
 };
 

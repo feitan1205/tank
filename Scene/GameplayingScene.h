@@ -27,13 +27,13 @@ private:
 	int _mousePosY;
 	BackScreenDraw* _backScreen;
 
-	std::vector<std::shared_ptr<Shot>> shots;
+	std::vector<std::shared_ptr<Shot>> _shots;
 
 	unsigned int  fadeColor_ = 0x000000; //フェードの色(デフォ黒)
 
 	static constexpr int fade_interval = 60;
-	int fadeTimer_ = fade_interval;
-	int fadeValue_ = 255;
+	int _fadeTimer = fade_interval;
+	int _fadeValue = 255;
 
 	void FadeInUpdate(const InputState& input);
 	void NormalUpdate(const InputState& input);

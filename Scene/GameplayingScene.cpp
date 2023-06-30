@@ -15,8 +15,8 @@
 
 void GameplayingScene::FadeInUpdate(const InputState& input)
 {
-	fadeValue_ = 255 * static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval);
-	if (--fadeTimer_ == 0)
+	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	if (--_fadeTimer == 0)
 	{
 		updateFunc_ = &GameplayingScene::NormalUpdate;
 	}
@@ -28,11 +28,11 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	_backScreen->SetMousePos(_mousePosX, _mousePosY);
 
 	//ショット発射
-	if (shots.size() < maxShotNum) {
+	if (_shots.size() < maxShotNum) {
 		if (input.IsTriggered(InputType::next)) {
-			shots.push_back(std::make_shared<Shot>());
-			shots.back()->Start(_player->GetPos(), VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0));
-			shots.back()->SetFieldData(_field);
+			_shots.push_back(std::make_shared<Shot>());
+			_shots.back()->Start(_player->GetPos(), VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0));
+			_shots.back()->SetFieldData(_field);
 		}
 	}
 
@@ -41,31 +41,31 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	//フィールドアップデート
 	_field->Update();
 	//ショットアップデート
-	for (auto shot : shots) {
+	for (auto shot : _shots) {
 		shot->Update();
 	}
 	_backScreen->Updata();
 
 	//ショット同士の当たり判定
-	for (int i = 0; i < shots.size(); i++) {
-		for (int j = 0; j < shots.size(); j++) {
+	for (int i = 0; i < _shots.size(); i++) {
+		for (int j = 0; j < _shots.size(); j++) {
 			if (i == j)continue;
 			if (AllCollision::CollCheck_Circle_Circle(
-				shots[i]->GetPos(),
-				shots[i]->GetCircleScale(),
-				shots[j]->GetPos(),
-				shots[j]->GetCircleScale())) {
-				shots[i]->ShotKill();
-				shots[j]->ShotKill();
+				_shots[i]->GetPos(),
+				_shots[i]->GetCircleScale(),
+				_shots[j]->GetPos(),
+				_shots[j]->GetCircleScale())) {
+				_shots[i]->ShotKill();
+				_shots[j]->ShotKill();
 			}
 		}
 	}
 
-	for (int i = 0; i < shots.size(); i++) {
+	for (int i = 0; i < _shots.size(); i++) {
 
 		if (AllCollision::CollCheck_Circle_Circle(
-			shots[i]->GetPos(),
-			shots[i]->GetCircleScale(),
+			_shots[i]->GetPos(),
+			_shots[i]->GetCircleScale(),
 			_player->GetPos(),
 			_player->GetCircleScale())) {
 			printfDx("dasdfasadf");
@@ -75,33 +75,33 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 
 	//ショット削除
 	auto rmIt = std::remove_if        // 条件に合致したものを消す
-	(shots.begin(),			// 対象はenemies_の最初から
-		shots.end(),			// 最後まで
+	(_shots.begin(),			// 対象はenemies_の最初から
+		_shots.end(),			// 最後まで
 	   // 消えてもらう条件を表すラムダ式
 	   // trueだと消える。falseだと消えない
 		[](const std::shared_ptr<Shot>& shot)
 		{
 			return !shot->IsEnabled();
 		});
-	shots.erase(rmIt, shots.end());
+	_shots.erase(rmIt, _shots.end());
 
 	if (input.IsTriggered(InputType::prev))
 	{
-		manager_.ChangeScene(new TitleScene(manager_));
+		_manager.ChangeScene(new TitleScene(_manager));
 		return;
 	}
 	if (input.IsTriggered(InputType::pause))
 	{
-		manager_.PushScene(new PauseScene(manager_));
+		_manager.PushScene(new PauseScene(_manager));
 	}
 }
 
 void GameplayingScene::FadeOutUpdate(const InputState& input)
 {
-	fadeValue_ = 255 * static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval);
-	if (++fadeTimer_ == fade_interval)
+	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	if (++_fadeTimer == fade_interval)
 	{
-		manager_.ChangeScene(new GameoverScene(manager_));
+		_manager.ChangeScene(new GameoverScene(_manager));
 		return;
 	}
 }
@@ -146,14 +146,14 @@ void GameplayingScene::Draw()
 	//フィールド描画
 	_field->Draw();
 	//ショット描画
-	for (auto shot : shots) {
+	for (auto shot : _shots) {
 		shot->Draw();
 	}
 	_backScreen->Draw();
 	//プレイヤー描画
 	_player->Draw();
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
 	DrawBox(0, 0, 640, 480, fadeColor_, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

@@ -8,13 +8,13 @@
 void TitleScene::FadeInUpdate(const InputState& input)
 {
 				 //真っ黒から徐々に表示する場合場合
-	fadeValue_ = 255 * (static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval));
+	_fadeValue = 255 * (static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval));
 				//グラデーションを使って徐々に表示する場合
 				/*fadeTimer_;*/
-	if (--fadeTimer_ == 0)
+	if (--_fadeTimer == 0)
 	{
 		updateFunc_ = &TitleScene::NormalUpdate;
-		fadeValue_ = 0;
+		_fadeValue = 0;
 	}
 }
 
@@ -27,17 +27,17 @@ void TitleScene::NormalUpdate(const InputState& input)
 	}
 	if (input.IsTriggered(InputType::prev))
 	{
-		manager_.ChangeScene(new OptionScene(manager_));
+		_manager.ChangeScene(new OptionScene(_manager));
 		return;
 	}
 }
 
 void TitleScene::FadeOutUpdate(const InputState& input)
 {
-	fadeValue_ = 255 * (static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval));
-	if (++fadeTimer_ == fade_interval)
+	_fadeValue = 255 * (static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval));
+	if (++_fadeTimer == fade_interval)
 	{
-		manager_.ChangeScene(new GameplayingScene(manager_));
+		_manager.ChangeScene(new GameplayingScene(_manager));
 		return;
 	}
 }
@@ -50,7 +50,7 @@ TitleScene::TitleScene(SceneManager& manager) :
 
 TitleScene::~TitleScene()
 {
-	DeleteGraph(titleH_);
+	DeleteGraph(_titleH);
 }
 
 void TitleScene::Update(const InputState& input)
@@ -64,7 +64,7 @@ void TitleScene::Draw()
 
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定している。
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
 	//画面全体を真っ黒に塗りつぶす
 	DrawBox(0, 0, 640, 480, 0x000000, true);
 	

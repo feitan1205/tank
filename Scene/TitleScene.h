@@ -10,10 +10,10 @@ class TitleScene : public Scene
 {
 private:
 	static constexpr int fade_interval = 60;
-	int titleH_ = -1;	//タイトル画像
-	int gradH_ = -1;
-	int fadeTimer_ = fade_interval;	//フェードタイマー
-	int fadeValue_ = 255;	//黒矩形とのブレンド具合
+	int _titleH = -1;	//タイトル画像
+	int _gradH = -1;
+	int _fadeTimer = fade_interval;	//フェードタイマー
+	int _fadeValue = 255;	//黒矩形とのブレンド具合
 
 	//フェードインの時のUpdate関数
 	void FadeInUpdate(const InputState& input);

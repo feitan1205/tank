@@ -4,38 +4,38 @@
 void SceneManager::ChangeScene(Scene* scene)
 {
 	//シーンスタックが空ではなかったら...
-	if (!scene_.empty())
+	if (!_scene.empty())
 	{
-		delete scene_.front();	//topはてっぺんの要素を返してる
-		scene_.pop_front();			//1個減る -> ふつうは0になる
+		delete _scene.front();	//topはてっぺんの要素を返してる
+		_scene.pop_front();			//1個減る -> ふつうは0になる
 	}
-	scene_.push_front(scene);			//1個増える
+	_scene.push_front(scene);			//1個増える
 }
 
 void SceneManager::PushScene(Scene* scene)
 {
-	scene_.push_front(scene);			//1個増える
+	_scene.push_front(scene);			//1個増える
 }
 
 void SceneManager::PopScene()
 {
 	//ポップの結果、シーンが0にならないようにする
-	if (scene_.size() > 1)
+	if (_scene.size() > 1)
 	{
-		delete scene_.front();
-		scene_.pop_front();
+		delete _scene.front();
+		_scene.pop_front();
 	}
 }
 
 void SceneManager::Update(const InputState& input)
 {
-	scene_.front()->Update(input);
+	_scene.front()->Update(input);
 }
 
 void SceneManager::Draw()
 {
-	for (int i = scene_.size() - 1; i >= 0; --i)
+	for (int i = _scene.size() - 1; i >= 0; --i)
 	{
-		scene_[i]->Draw();
+		_scene[i]->Draw();
 	}
 }

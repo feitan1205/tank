@@ -30,7 +30,7 @@ public:
 	/// フェードの明るさを取得
 	/// </summary>
 	/// <returns>0(フェードしていない)～255(真っ黒)</returns>
-	int getFadeBright() const { return m_fadeBright; }
+	int getFadeBright() const { return _fadeBright; }
 
 protected:
 
@@ -38,7 +38,7 @@ protected:
 
 private:
 	// フェード関連処理
-	int m_fadeColor;
-	int m_fadeBright;
-	int m_fadeSpeed;
+	int _fadeColor;
+	int _fadeBright;
+	int _fadeSpeed;
 };

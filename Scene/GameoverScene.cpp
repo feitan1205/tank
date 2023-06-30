@@ -6,10 +6,10 @@
 
 void GameoverScene::FadeInUpdate(const InputState& input)
 {
-	fadeValue_ = 255 * static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval);
-	if (--fadeTimer_ == 0)
+	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	if (--_fadeTimer == 0)
 	{
-		updateFunc_ = &GameoverScene::NormalUpdate;
+		_updateFunc = &GameoverScene::NormalUpdate;
 	}
 }
 
@@ -17,42 +17,42 @@ void GameoverScene::NormalUpdate(const InputState& input)
 {
 	if (input.IsTriggered(InputType::next))
 	{
-		updateFunc_ = &GameoverScene::FadeOutUpdate;
-		fadeColor_ = 0xff0000;
+		_updateFunc = &GameoverScene::FadeOutUpdate;
+		_fadeColor = 0xff0000;
 	}
 	if (input.IsTriggered(InputType::prev))
 	{
-		manager_.ChangeScene(new TitleScene(manager_));
+		_manager.ChangeScene(new TitleScene(_manager));
 		return;
 	}
 }
 
 void GameoverScene::FadeOutUpdate(const InputState& input)
 {
-	fadeValue_ = 255 * static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval);
-	if (++fadeTimer_ == fade_interval)
+	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	if (++_fadeTimer == fade_interval)
 	{
-		manager_.ChangeScene(new TitleScene(manager_));
+		_manager.ChangeScene(new TitleScene(_manager));
 		return;
 	}
 }
 
 GameoverScene::GameoverScene(SceneManager& manager) :
 	Scene(manager),
-	updateFunc_(&GameoverScene::FadeInUpdate)
+	_updateFunc(&GameoverScene::FadeInUpdate)
 {
 }
 
 
 void GameoverScene::Update(const InputState& input)
 {
-	(this->*updateFunc_)(input);
+	(this->*_updateFunc)(input);
 }
 
 void GameoverScene::Draw()
 {
-	DrawRotaGraph(320, 240, 0.5, 0.0, gameOverH_, true);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);
-	DrawBox(0, 0, 640, 480, fadeColor_, true);
+	DrawRotaGraph(320, 240, 0.5, 0.0, _gameOverH, true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
+	DrawBox(0, 0, 640, 480, _fadeColor, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
