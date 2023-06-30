@@ -1,6 +1,6 @@
 #include "Field.h"
 #include <DxLib.h>
-
+#include "../game.h"
 
 
 Field::Field()
@@ -12,8 +12,8 @@ Field::Field()
 		for (int j = 0; j < stageSizeX; j++) 
 		{
 			_modelH[i][j] = MV1DuplicateModel(modelH);
-			MV1SetPosition(_modelH[i][j], VGet(32.0f * j, 0.0f, 32.0f * i));
-			MV1SetScale(_modelH[i][j], VGet(50.0f, 50.0f, 50.0f));
+			MV1SetPosition(_modelH[i][j], VGet(32.0f * j - (Game::kScreenWidth / 2), 0.0f, 32.0f * i - (Game::kScreenHeight / 2)));
+			MV1SetScale(_modelH[i][j], VGet(30.0f, 30.0f, 30.0f));
 		}
 	}
 }
