@@ -9,7 +9,7 @@ namespace {
 	constexpr int blockSizeX = 32;
 	constexpr int blockSizeY = 32;
 	constexpr int fieldLayer = 3;
-}
+};
 
 class Field
 {

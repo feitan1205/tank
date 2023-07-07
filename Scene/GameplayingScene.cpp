@@ -117,13 +117,16 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	SetCameraNearFar(5.0f, 2800.0f);
 
 	// カメラの位置、どこを見ているかを設定する
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 445, -5), VGet(0, 0, 0));
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 445, -200), VGet(0, 0, 0));
 
 	// カメラの視野角を設定(ラジアン)
 	SetupCamera_Perspective(60.0f * DX_PI_F / 180.0f);
 
 	SetUseLighting(true);
-	SetLightPosition(VGet(0, 500, -150.0f));
+	SetLightPosition(VGet(50, 500, -150.0f));
+	//SetLightDirection(VGet(0.0f, 0.0f, 0.0f));
+
+	SetupCamera_Ortho(500.0f);
 
 	_player = new Player();
 	_field = new Field();

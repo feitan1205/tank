@@ -100,8 +100,8 @@ void Player::UpdateCancel(bool XorY)
 void Player::Draw()
 {
 
-	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
+	/*DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
+	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);*/
 
 	MV1DrawModel(_modelH);
 }
