@@ -128,6 +128,9 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 
 	SetupCamera_Ortho(500.0f);
 
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+
 	_player = new Player();
 	_field = new Field();
 	_fieldSize = _field->GetFieldSize();

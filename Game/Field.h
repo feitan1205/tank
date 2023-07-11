@@ -46,6 +46,8 @@ private:
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	};
 
+	int _modelBaseH;
+	int _modelWallH;
 	int _modelH[fieldLayer][stageSizeY][stageSizeX];
 
 };
