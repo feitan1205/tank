@@ -11,7 +11,7 @@ Enemy1::Enemy1() :
 	_modelPos(VGet(0, 0, 0)),
 	_speed(2)
 {
-	_pos = VGet(32 * 2, 32 * 9, 0);
+	_pos = VGet(32 * 20, 32 * 9, 0);
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
 	//_modelPos = VGet(_pos.x - Game::kScreenWidth / 2, -(_pos.y) + Game::kScreenHeight / 2, _pos.z);
@@ -31,6 +31,9 @@ Enemy1::~Enemy1()
 void Enemy1::Update()
 {
 	_tempPos = _pos;
+
+	_vec.x = GetRand(3);
+	_vec.y = GetRand(3);
 
 	if (VSize(_vec) != 0) {
 		_vec = VNorm(_vec);

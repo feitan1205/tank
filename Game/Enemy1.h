@@ -9,7 +9,7 @@ class Enemy1:public EnemyBase
 public:
 
 	Enemy1();
-	~Enemy1();
+	virtual ~Enemy1();
 
 	void Update();
 	/// <summary>

@@ -9,6 +9,7 @@ namespace {
 }
 
 class Player;
+//class Enemy1;	
 class Field;
 class BackScreenDraw;
 class Shot;
@@ -21,6 +22,7 @@ class GameplayingScene : public Scene
 private:
 
 	Player* _player;
+	//Enemy1* _enemy;
 	Field* _field;
 	VECTOR _fieldSize;
 	int _mousePosX;

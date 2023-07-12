@@ -1,17 +1,29 @@
 #pragma once
+
 class EnemyBase
 {
 public:
 
 	EnemyBase();
-	~EnemyBase();
+	virtual ~EnemyBase();
 
+	 virtual void Update() = 0;
+	/// <summary>
+	/// à⁄ìÆÇµÇ»Ç¢
+	/// </summary>
+	/// <param name="XorY">true = XÅAfalse = Y</param>
+	virtual void UpdateCancel(bool XorY) = 0;
+	virtual void Draw() = 0;
 
+	virtual void SetFieldData(Field* field) = 0;
+
+	virtual const VECTOR GetPos() = 0;
+	virtual const int GetCircleScale() = 0;
 
 
 private:
 
-	bool enableFlg;
+	//bool enableFlg;
 
 
 };
