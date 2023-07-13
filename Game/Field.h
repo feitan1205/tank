@@ -6,8 +6,8 @@
 namespace {
 	constexpr int stageSizeX = 28;
 	constexpr int stageSizeY = 16;
-	constexpr int blockSizeX = 32;
-	constexpr int blockSizeY = 32;
+	constexpr int blockSizeX = 64;
+	constexpr int blockSizeY = 64;
 	constexpr int fieldLayer = 3;
 };
 

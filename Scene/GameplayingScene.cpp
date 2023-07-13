@@ -41,7 +41,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	//プレイヤーアップデート
 	_player->Update(input);
 	//エネミーアップデート
-	//_enemy->Update();
+	_enemy->Update();
 	//フィールドアップデート
 	_field->Update();
 	//ショットアップデート
@@ -65,6 +65,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		}
 	}
 
+	//プレイヤーとショットの当たり判定
 	for (int i = 0; i < _shots.size(); i++) {
 
 		if (AllCollision::CollCheck_Circle_Circle(
@@ -73,6 +74,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 			_player->GetPos(),
 			_player->GetCircleScale())) {
 			printfDx("dasdfasadf");
+			_shots[i]->ShotKill();
 		}
 
 	}
@@ -136,7 +138,7 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	SetWriteZBuffer3D(TRUE);
 
 	_player = new Player();
-	//_enemy = new Enemy1();
+	_enemy = new Enemy1();
 	_field = new Field();
 	_fieldSize = _field->GetFieldSize();
 	_player->SetFieldData(_field);
@@ -163,7 +165,7 @@ void GameplayingScene::Draw()
 	_backScreen->Draw();
 	//プレイヤー描画
 	_player->Draw();
-	//_enemy->Draw();
+	_enemy->Draw();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
 	DrawBox(0, 0, 640, 480, fadeColor_, true);

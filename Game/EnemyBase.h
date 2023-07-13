@@ -1,4 +1,7 @@
 #pragma once
+#include "DxLib.h"
+
+class Field;
 
 class EnemyBase
 {
@@ -17,8 +20,8 @@ public:
 
 	virtual void SetFieldData(Field* field) = 0;
 
-	virtual const VECTOR GetPos() = 0;
-	virtual const int GetCircleScale() = 0;
+	virtual VECTOR GetPos() = 0;
+	virtual int GetCircleScale() = 0;
 
 
 private:

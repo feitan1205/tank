@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClCompile Include="Game\AllCollision.cpp" />
     <ClCompile Include="Game\BackScreenDraw.cpp" />
+    <ClCompile Include="Game\Enemy1.cpp" />
+    <ClCompile Include="Game\EnemyBase.cpp" />
     <ClCompile Include="Game\Field.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Game\Shot.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="Game\AllCollision.h" />
     <ClInclude Include="Game\BackScreenDraw.h" />
+    <ClInclude Include="Game\Enemy1.h" />
+    <ClInclude Include="Game\EnemyBase.h" />
     <ClInclude Include="Game\Field.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Shot.h" />

@@ -51,8 +51,8 @@ void Shot::Update()
 
 void Shot::Draw()
 {
-	//DrawCircle(static_cast<int>(_pos.x), static_cast<int>(_pos.y), _shotScale, 0xffffff, true);
-	DrawSphere3D(VGet(_pos.x - (Game::kScreenWidth / 2),16, -(_pos.y - (Game::kScreenHeight / 2))), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
+	DrawCircle(static_cast<int>(_pos.x), static_cast<int>(_pos.y), _shotScale, 0xffffff, true);
+	//DrawSphere3D(VGet(_pos.x - (Game::kScreenWidth / 2),16, -(_pos.y - (Game::kScreenHeight / 2))), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
 }
 
 void Shot::Start(VECTOR playerPos, VECTOR targetPos)

@@ -6,12 +6,12 @@
 #include "../game.h"
 
 Enemy1::Enemy1() :
-	_hitCircleScale(15),
+	_hitCircleScale(31),
 	_tempPos(VGet(0, 0, 0)),
 	_modelPos(VGet(0, 0, 0)),
 	_speed(2)
 {
-	_pos = VGet(32 * 20, 32 * 9, 0);
+	_pos = VGet(64 * 20, 64 * 9, 0);
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
 	//_modelPos = VGet(_pos.x - Game::kScreenWidth / 2, -(_pos.y) + Game::kScreenHeight / 2, _pos.z);
@@ -98,10 +98,10 @@ void Enemy1::UpdateCancel(bool XorY)
 void Enemy1::Draw()
 {
 
-	/*DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);*/
+	DrawBox(_pos.x - 31, _pos.y - 31, _pos.x + 32, _pos.y + 32, 0x00ff00, true);
+	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
 
-	MV1DrawModel(_modelH);
+	//MV1DrawModel(_modelH);
 }
 
 void Enemy1::SetFieldData(Field* field)

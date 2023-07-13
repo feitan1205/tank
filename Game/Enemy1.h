@@ -9,7 +9,7 @@ class Enemy1:public EnemyBase
 public:
 
 	Enemy1();
-	virtual ~Enemy1();
+	~Enemy1();
 
 	void Update();
 	/// <summary>
@@ -21,8 +21,8 @@ public:
 
 	void SetFieldData(Field* field);
 
-	const VECTOR GetPos()const { return _pos; }
-	const int GetCircleScale()const { return _hitCircleScale; }
+	VECTOR GetPos() { return _pos; }
+	int GetCircleScale() { return _hitCircleScale; }
 
 private:
 

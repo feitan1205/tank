@@ -13,11 +13,11 @@ Field::Field()
 		for (int j = 0; j < stageSizeX; j++) 
 		{
 			_modelH[0][i][j] = MV1DuplicateModel(_modelBaseH);
-			MV1SetPosition(_modelH[0][i][j], VGet(32.0f * j - (Game::kScreenWidth / 2) + 15, 0.0f, 32.0f * (stageSizeY - i) - (Game::kScreenHeight / 2) - 15));
+			MV1SetPosition(_modelH[0][i][j], VGet(32.0f * j + 15 - 32 * 14, 0.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
 			MV1SetScale(_modelH[0][i][j], VGet(32.0f, 32.0f, 32.0f));
 			if (mapData[i][j] == 1) {
 				_modelH[1][i][j] = MV1DuplicateModel(_modelWallH);
-				MV1SetPosition(_modelH[1][i][j], VGet(32.0f * j - (Game::kScreenWidth / 2) + 15, 32.0f, 32.0f * (stageSizeY - i) - (Game::kScreenHeight / 2) - 15));
+				MV1SetPosition(_modelH[1][i][j], VGet(32.0f * j + 15 - 32 * 14, 32.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
 				MV1SetScale(_modelH[1][i][j], VGet(32.0f, 32.0f, 32.0f));
 			}
 		}
@@ -52,7 +52,7 @@ void Field::Draw()
 			MV1DrawModel(_modelH[1][i][j]);
 			if (mapData[i][j] == 1) {
 				
-				//DrawBox(blockSizeX * j, blockSizeY * i, blockSizeX * j + blockSizeX - 1, blockSizeY * i + blockSizeY - 1,0xff0000,true);
+				DrawBox(blockSizeX * j, blockSizeY * i, blockSizeX * j + blockSizeX - 1, blockSizeY * i + blockSizeY - 1,0xff0000,true);
 
 			}
 		}
