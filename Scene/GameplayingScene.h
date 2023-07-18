@@ -29,6 +29,8 @@ private:
 	int _mousePosX;
 	int _mousePosY;
 	BackScreenDraw* _backScreen;
+	float _per2Dto3D;
+	VECTOR _mousePos3D;
 
 	std::vector<std::shared_ptr<Shot>> _shots;
 

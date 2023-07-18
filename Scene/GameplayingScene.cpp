@@ -14,6 +14,7 @@
 #include "../Game/Field.h"
 #include "../Game/Shot.h"
 #include "../Game/BackScreenDraw.h"
+#include "../game.h"
 
 void GameplayingScene::FadeInUpdate(const InputState& input)
 {
@@ -27,13 +28,17 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 {
 	
 	GetMousePoint(&_mousePosX, &_mousePosY);
+	_mousePos3D = ConvScreenPosToWorldPos(VGet(Game::kScreenWidth / 2, Game::kScreenHeight / 2, 0.24f));//static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), 1.0f
+	printfDx("%f\n", _mousePos3D.y);
+	//_mousePos3D.y = 18.0f;
 	_backScreen->SetMousePos(_mousePosX, _mousePosY);
+	_backScreen->SetMousePos3D(_mousePos3D);
 
 	//ショット発射
 	if (_shots.size() < maxShotNum) {
 		if (input.IsTriggered(InputType::next)) {
 			_shots.push_back(std::make_shared<Shot>());
-			_shots.back()->Start(_player->GetPos(), VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0));
+			_shots.back()->Start(_player->GetModelPos(), _mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
 			_shots.back()->SetFieldData(_field);
 		}
 	}
@@ -123,7 +128,7 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	SetCameraNearFar(5.0f, 2800.0f);
 
 	// カメラの位置、どこを見ているかを設定する
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 445, -200), VGet(0, 0, 0));
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 600, -300), VGet(0, 0, 0));
 
 	// カメラの視野角を設定(ラジアン)
 	SetupCamera_Perspective(60.0f * DX_PI_F / 180.0f);
@@ -136,6 +141,8 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
+
+	_per2Dto3D = (1.0f / (2500.0f + 295.0f)) * 295.0f;
 
 	_player = new Player();
 	_enemy = new Enemy1();

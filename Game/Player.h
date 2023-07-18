@@ -22,6 +22,7 @@ public:
 	void SetFieldData(Field* field);
 
 	const VECTOR GetPos()const { return _pos; }
+	const VECTOR GetModelPos()const { return _modelPos; }
 	const int GetCircleScale()const { return _hitCircleScale; }
 
 private:
@@ -29,7 +30,8 @@ private:
 	int _modelH;
 
 	VECTOR _pos;
-	VECTOR _tempPos;
+	VECTOR _temp2DPos;
+	VECTOR _temp3DPos;
 	VECTOR _modelPos;
 	VECTOR _vec;
 	Field* _field;
