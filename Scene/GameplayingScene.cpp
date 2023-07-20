@@ -28,8 +28,11 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 {
 	
 	GetMousePoint(&_mousePosX, &_mousePosY);
-	_mousePos3D = ConvScreenPosToWorldPos(VGet(Game::kScreenWidth / 2, Game::kScreenHeight / 2, 0.24f));//static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), 1.0f
-	printfDx("%f\n", _mousePos3D.y);
+	float per2DMousePosY;
+	per2DMousePosY = (Game::kScreenHeight - static_cast<float>(_mousePosY)) / Game::kScreenHeight;
+	float mouse3DZ = (0.275758f - 0.186309f) * per2DMousePosY + 0.186309f;
+	_mousePos3D = ConvScreenPosToWorldPos(VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), mouse3DZ));//static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), 1.0f//0.186309f//0.23101f//0.275758f
+	printfDx("%f\n", _mousePos3D.x);
 	//_mousePos3D.y = 18.0f;
 	_backScreen->SetMousePos(_mousePosX, _mousePosY);
 	_backScreen->SetMousePos3D(_mousePos3D);
@@ -149,6 +152,7 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	_field = new Field();
 	_fieldSize = _field->GetFieldSize();
 	_player->SetFieldData(_field);
+	_enemy->SetFieldData(_field);
 	_backScreen = new BackScreenDraw();
 	_backScreen->SetPlayerData(_player);
 }

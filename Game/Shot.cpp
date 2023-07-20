@@ -11,9 +11,9 @@ Shot::Shot() :
 	_brittleFlg(false),
 	_field(nullptr),
 	_fieldSize(VGet(0,0,0)),
-	_pos(VGet(0,0,0)),
-	_tempPos(VGet(0,0,0)),
-	_vec(VGet(0,0,0))
+	_3DPos(VGet(0,0,0)),
+	_temp3DPos(VGet(0,0,0)),
+	_3DVec(VGet(0,0,0))
 {
 }
 
@@ -23,24 +23,31 @@ Shot::~Shot()
 
 void Shot::Update()
 {
-	_tempPos = _pos;
+	_temp3DPos = _3DPos;
+	_temp2DPos = _2DPos;
 
-	_pos.x += _vec.x;
+	_3DPos.x += _3DVec.x;
+	_2DPos.x += _2DVec.x;
 
 	if (HitCheck()) {
-		_vec.x *= -1;
-		_pos = _tempPos;
+		_3DVec.x *= -1;
+		_3DPos = _temp3DPos;
+		_2DVec.x *= -1;
+		_2DPos = _temp2DPos;
 		if (_brittleFlg) {
 			_enableFlg = false;
 		}
 		_brittleFlg = true;
 	}
 
-	_pos.y += _vec.y;
+	_3DPos.z += _3DVec.z;
+	_2DPos.y += _2DVec.y;
 
 	if (HitCheck()) {
-		_vec.y *= -1;
-		_pos = _tempPos;
+		_3DVec.z *= -1;
+		_3DPos = _temp3DPos;
+		_2DVec.y *= -1;
+		_2DPos = _temp2DPos;
 		if (_brittleFlg) {
 			_enableFlg = false;
 		}
@@ -51,18 +58,23 @@ void Shot::Update()
 
 void Shot::Draw()
 {
-	DrawCircle(static_cast<int>(_pos.x), static_cast<int>(_pos.y), _shotScale, 0xffffff, true);
-	DrawSphere3D(VGet(_pos.x - (32 * 28 / 2),16, -(_pos.y - (32 * 16 / 2))), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
+	DrawCircle(static_cast<int>(_2DPos.x), static_cast<int>(_2DPos.y), _shotScale, 0xffffff, true);
+	DrawSphere3D(VGet(_3DPos.x,16, _3DPos.z), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
 }
 
 void Shot::Start(VECTOR playerPos, VECTOR targetPos)
 {
 	_enableFlg = true;
-	_pos = playerPos;
-	_vec = VSub(targetPos,playerPos);
-	_vec = VNorm(_vec);
-	_pos = VAdd(_pos,VScale(_vec, -18));
-	_vec = VScale(_vec,speed);
+	_3DPos = playerPos;
+	_2DPos = VGet(playerPos.x + 32 * 14, 32 * 8 - playerPos.z, 0.0f);
+	targetPos.y = 0.0f;
+	_3DVec = VSub(targetPos,playerPos);
+	_3DVec = VNorm(_3DVec);
+	_2DVec = VGet(_3DVec.x, -(_3DVec.z), _3DVec.y);
+	_3DPos = VAdd(_3DPos,VScale(_3DVec, 18));
+	_2DPos = VAdd(_2DPos, VScale(_2DVec,18));
+	_3DVec = VScale(_3DVec,speed);
+	_2DVec = VScale(_2DVec, speed);
 }
 
 void Shot::ShotKill()

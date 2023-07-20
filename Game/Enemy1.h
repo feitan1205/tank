@@ -29,7 +29,8 @@ private:
 	int _modelH;
 
 	VECTOR _pos;
-	VECTOR _tempPos;
+	VECTOR _temp2DPos;
+	VECTOR _temp3DPos;
 	VECTOR _modelPos;
 	VECTOR _vec;
 	Field* _field;

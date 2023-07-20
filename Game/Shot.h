@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 namespace {
-	constexpr float speed = -5.0;
+	constexpr float speed = 5.0;
 	constexpr int shotScale = 3;
 }
 
@@ -23,16 +23,20 @@ public:
 	void ShotKill();
 
 	void SetFieldData(Field* field);
-	const VECTOR GetPos()const { return _pos; }
+	const VECTOR GetPos()const { return _2DPos; }
 	const int GetCircleScale() const { return _shotScale; }
 	bool IsEnabled() { return _enableFlg; }
 
 	bool HitCheck();
 private:
 
-	VECTOR _pos;
-	VECTOR _vec;
-	VECTOR _tempPos;
+	VECTOR _3DPos;
+	VECTOR _2DPos;
+	VECTOR _3DVec;
+	VECTOR _2DVec;
+
+	VECTOR _temp3DPos;
+	VECTOR _temp2DPos;
 
 	Field* _field;
 	VECTOR _fieldSize;
