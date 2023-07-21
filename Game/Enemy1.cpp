@@ -9,7 +9,9 @@ Enemy1::Enemy1() :
 	_hitCircleScale(15),
 	_temp2DPos(VGet(0, 0, 0)),
 	_modelPos(VGet(0, 0, 0)),
-	_speed(1)
+	_speed(1),
+	_vecUpdateCount(0),
+	_isenable(true)
 {
 	_pos = VGet(32 * 20, 32 * 8, 0);
 	_vec = VGet(0, 0, 0);
@@ -33,8 +35,19 @@ void Enemy1::Update()
 	_temp2DPos = _pos;
 	_temp3DPos = _modelPos;
 
-	_vec.x = GetRand(3);
-	_vec.y = GetRand(3);
+	_vecUpdateCount--;
+
+	if (_vecUpdateCount < 0) {
+		_vec.x = GetRand(1000);
+		if (GetRand(2)) {
+			_vec.x *= -1;
+		}
+		_vec.y = GetRand(1000);
+		if (GetRand(2)) {
+			_vec.y *= -1;
+		}
+		_vecUpdateCount = 200;
+	}
 
 	if (VSize(_vec) != 0) {
 		_vec = VNorm(_vec);
@@ -83,7 +96,7 @@ void Enemy1::Update()
 
 	MV1SetPosition(_modelH, _modelPos);
 
-	_vec = VGet(0, 0, 0);
+	//_vec = VGet(0, 0, 0);
 
 }
 
@@ -102,14 +115,20 @@ void Enemy1::UpdateCancel(bool XorY)
 void Enemy1::Draw()
 {
 
-	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
-
-	MV1DrawModel(_modelH);
+	//DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
+	//DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
+	if (_isenable) {
+		MV1DrawModel(_modelH);
+	}
 }
 
 void Enemy1::SetFieldData(Field* field)
 {
 	_field = field;
 	_fieldSize = _field->GetFieldSize();
+}
+
+void Enemy1::EnemyKill()
+{
+	_isenable = false;
 }

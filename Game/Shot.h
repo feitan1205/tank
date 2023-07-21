@@ -43,7 +43,7 @@ private:
 
 	int _shotScale;
 	bool _brittleFlg;
-
+	bool _playersShot;
 	bool _enableFlg;
 };
 

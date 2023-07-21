@@ -24,6 +24,7 @@ void GameplayingScene::FadeInUpdate(const InputState& input)
 		updateFunc_ = &GameplayingScene::NormalUpdate;
 	}
 }
+
 void GameplayingScene::NormalUpdate(const InputState& input)
 {
 	
@@ -32,7 +33,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	per2DMousePosY = (Game::kScreenHeight - static_cast<float>(_mousePosY)) / Game::kScreenHeight;
 	float mouse3DZ = (0.275758f - 0.186309f) * per2DMousePosY + 0.186309f;
 	_mousePos3D = ConvScreenPosToWorldPos(VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), mouse3DZ));//static_cast<float>(_mousePosX), static_cast<float>(_mousePosY), 1.0f//0.186309f//0.23101f//0.275758f
-	printfDx("%f\n", _mousePos3D.x);
+	//printfDx("%f\n", _mousePos3D.x);
 	//_mousePos3D.y = 18.0f;
 	_backScreen->SetMousePos(_mousePosX, _mousePosY);
 	_backScreen->SetMousePos3D(_mousePos3D);
@@ -73,7 +74,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		}
 	}
 
-	//プレイヤーとショットの当たり判定
+	//プレイヤー、エネミーとショットの当たり判定
 	for (int i = 0; i < _shots.size(); i++) {
 
 		if (AllCollision::CollCheck_Circle_Circle(
@@ -81,7 +82,17 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 			_shots[i]->GetCircleScale(),
 			_player->GetPos(),
 			_player->GetCircleScale())) {
-			printfDx("dasdfasadf");
+			//printfDx("dasdfasadf");
+			_shots[i]->ShotKill();
+		}
+
+		if (AllCollision::CollCheck_Circle_Circle(
+			_shots[i]->GetPos(),
+			_shots[i]->GetCircleScale(),
+			_enemy->GetPos(),
+			_enemy->GetCircleScale())) {
+			//printfDx("dasdfasadf");
+			_enemy->EnemyKill();
 			_shots[i]->ShotKill();
 		}
 
@@ -179,6 +190,6 @@ void GameplayingScene::Draw()
 	_enemy->Draw();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
-	DrawBox(0, 0, 640, 480, fadeColor_, true);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, fadeColor_, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

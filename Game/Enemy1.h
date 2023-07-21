@@ -24,6 +24,8 @@ public:
 	VECTOR GetPos() { return _pos; }
 	int GetCircleScale() { return _hitCircleScale; }
 
+	void EnemyKill();
+
 private:
 
 	int _modelH;
@@ -37,6 +39,9 @@ private:
 	VECTOR _fieldSize;
 	float _speed;
 	int _hitCircleScale;
+	int _vecUpdateCount;
+
+	bool _isenable;
 
 };
 

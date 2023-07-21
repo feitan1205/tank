@@ -58,13 +58,14 @@ void Shot::Update()
 
 void Shot::Draw()
 {
-	DrawCircle(static_cast<int>(_2DPos.x), static_cast<int>(_2DPos.y), _shotScale, 0xffffff, true);
+	//DrawCircle(static_cast<int>(_2DPos.x), static_cast<int>(_2DPos.y), _shotScale, 0xffffff, true);
 	DrawSphere3D(VGet(_3DPos.x,16, _3DPos.z), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
 }
 
 void Shot::Start(VECTOR playerPos, VECTOR targetPos)
 {
 	_enableFlg = true;
+	_playersShot = true;
 	_3DPos = playerPos;
 	_2DPos = VGet(playerPos.x + 32 * 14, 32 * 8 - playerPos.z, 0.0f);
 	targetPos.y = 0.0f;

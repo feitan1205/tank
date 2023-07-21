@@ -23,6 +23,7 @@ public:
 	virtual VECTOR GetPos() = 0;
 	virtual int GetCircleScale() = 0;
 
+	virtual void EnemyKill() = 0;
 
 private:
 
