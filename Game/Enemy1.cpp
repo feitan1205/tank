@@ -2,11 +2,12 @@
 #include "Enemy1.h"
 #include "DxLib.h"
 #include "Field.h"
+#include "Shot.h"
 #include "AllCollision.h"
 #include "../game.h"
 
 Enemy1::Enemy1() :
-	_hitCircleScale(15),
+	_hitCircleScale(17),
 	_temp2DPos(VGet(0, 0, 0)),
 	_modelPos(VGet(0, 0, 0)),
 	_speed(1),
@@ -21,7 +22,7 @@ Enemy1::Enemy1() :
 
 	MV1SetPosition(_modelH, _modelPos);
 	//MV1SetPosition(_modelH,VGet(50, 0, 0));
-	MV1SetScale(_modelH, VGet(25.0f, 25.0f, 25.0f));
+	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
 }
 
 
@@ -120,6 +121,11 @@ void Enemy1::Draw()
 	if (_isenable) {
 		MV1DrawModel(_modelH);
 	}
+
+	DrawFormatString(1800, 0, 0xffffff, "%d,%d", static_cast<int>(_pos.x) / 32, static_cast<int>(_pos.y) / 32);
+
+	
+
 }
 
 void Enemy1::SetFieldData(Field* field)

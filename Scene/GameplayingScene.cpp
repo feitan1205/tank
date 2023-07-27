@@ -39,16 +39,18 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	_backScreen->SetMousePos3D(_mousePos3D);
 
 	//ショット発射
-	if (_shots.size() < maxShotNum) {
-		if (input.IsTriggered(InputType::next)) {
-			_shots.push_back(std::make_shared<Shot>());
-			_shots.back()->Start(_player->GetModelPos(), _mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
-			_shots.back()->SetFieldData(_field);
-		}
-	}
+	//if (_shots.size() < maxShotNum) {
+	//	if (input.IsTriggered(InputType::next)) {
+	//		_shots.push_back(std::make_shared<Shot>());
+	//		_shots.back()->Start(_player->GetModelPos(), _mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
+	//		_shots.back()->SetFieldData(_field);
+	//		_player->UpdateCancel(true);
+	//		_player->UpdateCancel(false);
+	//	}
+	//}
 
 	//プレイヤーアップデート
-	_player->Update(input);
+	_player->Update(input,_mousePos3D);
 	//エネミーアップデート
 	_enemy->Update();
 	//フィールドアップデート
@@ -98,17 +100,17 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 
 	}
 
-	//ショット削除
-	auto rmIt = std::remove_if        // 条件に合致したものを消す
-	(_shots.begin(),			// 対象はenemies_の最初から
-		_shots.end(),			// 最後まで
-	   // 消えてもらう条件を表すラムダ式
-	   // trueだと消える。falseだと消えない
-		[](const std::shared_ptr<Shot>& shot)
-		{
-			return !shot->IsEnabled();
-		});
-	_shots.erase(rmIt, _shots.end());
+	////ショット削除
+	//auto rmIt = std::remove_if        // 条件に合致したものを消す
+	//(_shots.begin(),			// 対象はenemies_の最初から
+	//	_shots.end(),			// 最後まで
+	//   // 消えてもらう条件を表すラムダ式
+	//   // trueだと消える。falseだと消えない
+	//	[](const std::shared_ptr<Shot>& shot)
+	//	{
+	//		return !shot->IsEnabled();
+	//	});
+	//_shots.erase(rmIt, _shots.end());
 
 	if (input.IsTriggered(InputType::prev))
 	{
@@ -160,7 +162,7 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 
 	_player = new Player();
 	_enemy = new Enemy1();
-	_field = new Field();
+	_field = new Field(_player);
 	_fieldSize = _field->GetFieldSize();
 	_player->SetFieldData(_field);
 	_enemy->SetFieldData(_field);
