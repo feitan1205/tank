@@ -122,7 +122,7 @@ void Enemy1::Draw()
 		MV1DrawModel(_modelH);
 	}
 
-	DrawFormatString(1800, 0, 0xffffff, "%d,%d", static_cast<int>(_pos.x) / 32, static_cast<int>(_pos.y) / 32);
+	//DrawFormatString(1800, 0, 0xffffff, "%d,%d", static_cast<int>(_pos.x) / 32, static_cast<int>(_pos.y) / 32);
 
 	
 

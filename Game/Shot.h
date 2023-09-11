@@ -24,6 +24,7 @@ public:
 
 	void SetFieldData(Field* field);
 	const VECTOR GetPos()const { return _2DPos; }
+
 	const int GetCircleScale() const { return _shotScale; }
 	bool IsEnabled() { return _enableFlg; }
 
