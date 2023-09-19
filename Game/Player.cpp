@@ -5,24 +5,24 @@
 #include "AllCollision.h"
 #include "../game.h"
 #include "Shot.h"
+#include "Enemy1.h"
 
 Player::Player():
 	_hitCircleScale(13),
 	_temp2DPos(VGet(0,0,0)),
 	_temp3DPos(VGet(0, 0, 0)),
 	_modelPos(VGet(0,0,0)),
-	_speed(1)
+	_speed(2),
+	_lifePoint(1),
+	_enable(true)
 {
 	_pos = VGet(32 * 2, 32 * 8,0);
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
-	//_modelPos = VGet(_pos.x - Game::kScreenWidth / 2, -(_pos.y) + Game::kScreenHeight / 2, _pos.z);
-	//_modelPos = VGet(_pos.x - 32 * 28 / 2 ,_pos.z, -(_pos.y) + 32 * 16 / 2);
 	_modelPos = VGet(-32 * 12, 0, 0);
 
 
 	MV1SetPosition(_modelH, _modelPos);
-	//MV1SetPosition(_modelH,VGet(50, 0, 0));
 	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
 }
 
@@ -33,42 +33,11 @@ Player::~Player()
 }
 
 void Player::Update(const InputState& input,const VECTOR mousePos3D)
-{
-
-	//ショット発射
-	if (_shots.size() < shotMaxNum) {
-		if (input.IsTriggered(InputType::next)) {
-			_shots.push_back(std::make_shared<Shot>());
-			_shots.back()->Start(this->GetModelPos(), mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
-			_shots.back()->SetFieldData(_field);
-			this->UpdateCancel(true);
-			this->UpdateCancel(false);
-			_shotStiffCount = 5;
-		}
-	}
-
-	for (int i = 0; i < _shots.size(); i++) {
-		_shots[i]->Update();
-	}
-
+{	
 	if (_shotStiffCount != 0) {
 		_shotStiffCount--;
 		return;
 	}
-
-
-
-	//ショット削除
-	auto rmIt = std::remove_if        // 条件に合致したものを消す
-	(_shots.begin(),			// 対象はenemies_の最初から
-		_shots.end(),			// 最後まで
-	   // 消えてもらう条件を表すラムダ式
-	   // trueだと消える。falseだと消えない
-		[](const std::shared_ptr<Shot>& shot)
-		{
-			return !shot->IsEnabled();
-		});
-	_shots.erase(rmIt, _shots.end());
 
 	_temp2DPos = _pos;
 	_temp3DPos = _modelPos;
@@ -145,12 +114,8 @@ void Player::UpdateCancel(bool XorY)
 void Player::Draw()
 {
 
-	//DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	//DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
-
-	for (int i = 0; i < _shots.size(); i++) {
-		_shots[i]->Draw();
-	}
+	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
+	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
 
 	MV1DrawModel(_modelH);
 }
@@ -160,3 +125,4 @@ void Player::SetFieldData(Field* field)
 	_field = field;
 	_fieldSize = _field->GetFieldSize();
 }
+

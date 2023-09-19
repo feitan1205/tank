@@ -22,8 +22,10 @@ class GameplayingScene : public Scene
 {
 private:
 
+	//ゲームプレイデータ
 	Player* _player;
-	EnemyBase* _enemy;
+	std::vector<std::shared_ptr<EnemyBase>> _enemies;
+	std::vector<std::shared_ptr<Shot>> _shots;
 	Field* _field;
 	VECTOR _fieldSize;
 	int _mousePosX;
@@ -32,7 +34,7 @@ private:
 	float _per2Dto3D;
 	VECTOR _mousePos3D;
 
-	std::vector<std::shared_ptr<Shot>> _shots;
+	int _UIH;
 
 	unsigned int  fadeColor_ = 0x000000; //フェードの色(デフォ黒)
 

@@ -25,6 +25,7 @@ private:
 	//Update用メンバ関数ポインタ
 	void (TitleScene::* updateFunc_)(const InputState& input);
 
+
 private:
 
 	static constexpr int _textFadeInterval = 30;

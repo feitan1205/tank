@@ -12,7 +12,7 @@ Enemy1::Enemy1() :
 	_modelPos(VGet(0, 0, 0)),
 	_speed(1),
 	_vecUpdateCount(0),
-	_isenable(true)
+	_enable(true)
 {
 	_pos = VGet(32 * 20, 32 * 8, 0);
 	_vec = VGet(0, 0, 0);
@@ -38,7 +38,7 @@ void Enemy1::Update()
 
 	_vecUpdateCount--;
 
-	if (_vecUpdateCount < 0) {
+	/*if (_vecUpdateCount < 0) {
 		_vec.x = GetRand(1000);
 		if (GetRand(2)) {
 			_vec.x *= -1;
@@ -48,7 +48,16 @@ void Enemy1::Update()
 			_vec.y *= -1;
 		}
 		_vecUpdateCount = 200;
+	}*/
+
+	if (_vecUpdateCount < 0) {
+		_targetIndex.x = GetRand(26) + 1;
+		_targetIndex.y = GetRand(14) + 1;
+		_vec.x = (_targetIndex.x * 32 - 16) - _pos.x;
+		_vec.y = (_targetIndex.y * 32 - 16) - _pos.y;
+		_vecUpdateCount = 200;
 	}
+
 
 	if (VSize(_vec) != 0) {
 		_vec = VNorm(_vec);
@@ -116,13 +125,13 @@ void Enemy1::UpdateCancel(bool XorY)
 void Enemy1::Draw()
 {
 
-	//DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	//DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
-	if (_isenable) {
+	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
+	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
+	if (_enable) {
 		MV1DrawModel(_modelH);
 	}
 
-	//DrawFormatString(1800, 0, 0xffffff, "%d,%d", static_cast<int>(_pos.x) / 32, static_cast<int>(_pos.y) / 32);
+	DrawFormatString(1800, 0, 0xffffff, "%f,%f", _targetIndex.x, _targetIndex.y);
 
 	
 
@@ -136,5 +145,5 @@ void Enemy1::SetFieldData(Field* field)
 
 void Enemy1::EnemyKill()
 {
-	_isenable = false;
+	_enable = false;
 }

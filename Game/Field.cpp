@@ -65,11 +65,11 @@ void Field::Draw()
 		for (int j = 0; j < stageSizeX; j++) {
 			MV1DrawModel(_modelH[0][i][j]);
 			MV1DrawModel(_modelH[1][i][j]);
-			/*if (mapData[i][j] == 1) {
+			if (mapData[i][j] == 1) {
 				
 				DrawBox(blockSizeX * j, blockSizeY * i, blockSizeX * j + blockSizeX - 1, blockSizeY * i + blockSizeY - 1,0xff0000,true);
 
-			}*/
+			}
 		}
 	}
 

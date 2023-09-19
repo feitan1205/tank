@@ -25,6 +25,8 @@ public:
 
 	virtual void EnemyKill() = 0;
 
+	virtual bool IsEnable() = 0;
+
 private:
 
 	//bool enableFlg;

@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 namespace {
-	constexpr float speed = 5.0;
+	constexpr float speed = 4.0;
 	constexpr int shotScale = 3;
 }
 

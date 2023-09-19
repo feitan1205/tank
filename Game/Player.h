@@ -9,6 +9,7 @@ namespace {
 
 class InputState;
 class Field;
+class Enemy1;
 class Shot;
 
 class Player
@@ -26,27 +27,53 @@ public:
 	void UpdateCancel(bool XorY);
 	void Draw();
 
+	//setter
 	void SetFieldData(Field* field);
 
+	//getter
 	const VECTOR GetPos()const { return _pos; }
 	const VECTOR GetModelPos()const { return _modelPos; }
 	const int GetCircleScale()const { return _hitCircleScale; }
+	bool GetEnable() { return _enable; }
+
+	/// <summary>
+	/// ショットした時のプレイヤー挙動
+	/// </summary>
+	void Shot() 
+	{
+		this->UpdateCancel(true);
+		this->UpdateCancel(false);
+		_shotStiffCount = 5; 
+	};
+
+	/// <summary>
+	/// プレイヤーが死ぬ
+	/// </summary>
+	void Kill() {
+		_lifePoint--;
+		if (_lifePoint == 0) 
+		{
+			_enable = false;
+		}
+	}
+
 
 private:
 
 	int _modelH;
 
-	VECTOR _pos;
-	VECTOR _temp2DPos;
-	VECTOR _temp3DPos;
-	VECTOR _modelPos;
-	VECTOR _vec;
-	Field* _field;
-	VECTOR _fieldSize;
-	std::vector<std::shared_ptr<Shot>> _shots;
-	float _speed;
-	int _hitCircleScale;
-	int _shotStiffCount;
+	VECTOR _pos;			//2D座標
+	VECTOR _modelPos;		//3D座標
+	VECTOR _temp2DPos;		//一時的な2D座標
+	VECTOR _temp3DPos;		//一時的な3D座標
+	VECTOR _vec;			//移動ベクトル
+	Field* _field;			//フィールドデータ
+	VECTOR _fieldSize;		//フィールドのサイズ
+	float _speed;			//移動量
+	int _hitCircleScale;	//当たり判定
+	int _shotStiffCount;	//ショット後の硬直時間
+	int _lifePoint;			//持ち自機数
+	bool _enable;			//存在フラグ
 
 };
 

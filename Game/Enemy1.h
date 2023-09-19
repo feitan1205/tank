@@ -26,6 +26,8 @@ public:
 
 	void EnemyKill();
 
+	bool IsEnable() { return _enable; }
+
 private:
 
 	int _modelH;
@@ -40,8 +42,9 @@ private:
 	float _speed;
 	int _hitCircleScale;
 	int _vecUpdateCount;
+	VECTOR _targetIndex;
 
-	bool _isenable;
+	bool _enable;
 
 };
 
