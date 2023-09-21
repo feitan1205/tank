@@ -26,6 +26,8 @@ private:
 	Player* _player;
 	std::vector<std::shared_ptr<EnemyBase>> _enemies;
 	std::vector<std::shared_ptr<Shot>> _shots;
+	int _maxFieldNum;
+	int _fieldNumber;
 	Field* _field;
 	VECTOR _fieldSize;
 	int _mousePosX;
@@ -33,7 +35,7 @@ private:
 	BackScreenDraw* _backScreen;
 	float _per2Dto3D;
 	VECTOR _mousePos3D;
-
+	
 	int _UIH;
 
 	unsigned int  fadeColor_ = 0x000000; //フェードの色(デフォ黒)

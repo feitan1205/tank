@@ -16,7 +16,7 @@ Player::Player():
 	_lifePoint(1),
 	_enable(true)
 {
-	_pos = VGet(32 * 2, 32 * 8,0);
+	//_pos = VGet(32 * 2, 32 * 8,0);
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
 	_modelPos = VGet(-32 * 12, 0, 0);
@@ -60,7 +60,7 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 
 	for (int i = 0; i < _fieldSize.y; i++) {
 		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
+			if (_field->GetFieldData(i, j) == 1) {
 				if (AllCollision::CollCheck_Box_Circle(
 					_field->GetMinHitBox(i, j),
 					_field->GetMaxHitBox(i, j),
@@ -78,7 +78,7 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 
 	for (int i = 0; i < _fieldSize.y; i++) {
 		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
+			if (_field->GetFieldData(i, j) == 1) {
 				if (AllCollision::CollCheck_Box_Circle(
 					_field->GetMinHitBox(i, j),
 					_field->GetMaxHitBox(i, j),
@@ -94,7 +94,9 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 	_modelPos = VGet(_modelPos.x, _modelPos.y, _modelPos.z);
 
 	MV1SetPosition(_modelH, _modelPos);
-
+	
+	_indexPos.x = static_cast<int>(_pos.x) / 32;
+	_indexPos.y = static_cast<int>(_pos.y) / 32;
 	_vec = VGet(0, 0, 0);
 
 }
@@ -114,6 +116,7 @@ void Player::UpdateCancel(bool XorY)
 void Player::Draw()
 {
 
+	DrawFormatString(0, 0, 0xffffff, "%f;%f", _indexPos.x, _indexPos.y);
 	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
 	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
 

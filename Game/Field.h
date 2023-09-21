@@ -11,49 +11,29 @@ namespace {
 	constexpr int fieldLayer = 3;
 };
 
-class Player;
-
 class Field
 {
 public:
-	Field(Player* player);
+	Field(int fieldNumber);
 	~Field();
 
 	void Update();
 	void Draw();
 
 	VECTOR GetFieldSize() { return VGet(stageSizeX, stageSizeY,0); }
-	bool GetFieldData(int y, int x) { if (mapData[y][x] != 0)return true; else return false; }
+	int GetFieldData(int y, int x) {return mapData[y][x]; }
 	VECTOR GetMinHitBox(int y, int x) { return VGet(static_cast<float>(blockSizeX * x),static_cast<float>(blockSizeY * y),0.0f); }
 	VECTOR GetMaxHitBox(int y, int x) { return VGet(static_cast<float>(blockSizeX * x + blockSizeX), static_cast<float>(blockSizeY * y + blockSizeY),0.0f); }
 
+	void SetMapData(int fieldNumber);
+
 private:
 
-	int mapData[stageSizeY][stageSizeX] = {
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	};
+	int mapData[stageSizeY][stageSizeX];
 
 	int _modelBaseH;
 	int _modelWallH;
 	int _modelH[fieldLayer][stageSizeY][stageSizeX];
 	int _indexEvaluation[stageSizeY][stageSizeX];
-
-	Player* _player;
-	VECTOR _playerIndex;
 };
 

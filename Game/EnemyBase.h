@@ -2,6 +2,7 @@
 #include "DxLib.h"
 
 class Field;
+class Player;
 
 class EnemyBase
 {
@@ -18,6 +19,8 @@ public:
 	virtual void UpdateCancel(bool XorY) = 0;
 	virtual void Draw() = 0;
 
+	virtual void SetPos(int y, int x) = 0;
+
 	virtual void SetFieldData(Field* field) = 0;
 
 	virtual VECTOR GetPos() = 0;
@@ -26,6 +29,8 @@ public:
 	virtual void EnemyKill() = 0;
 
 	virtual bool IsEnable() = 0;
+
+	virtual void SetPlayerData(Player* player) = 0;
 
 private:
 

@@ -2,6 +2,7 @@
 #include "Enemy1.h"
 #include "DxLib.h"
 #include "Field.h"
+#include "Player.h"
 #include "Shot.h"
 #include "AllCollision.h"
 #include "../game.h"
@@ -72,7 +73,7 @@ void Enemy1::Update()
 
 	for (int i = 0; i < _fieldSize.y; i++) {
 		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
+			if (_field->GetFieldData(i, j) == 1) {
 				if (AllCollision::CollCheck_Box_Circle(
 					_field->GetMinHitBox(i, j),
 					_field->GetMaxHitBox(i, j),
@@ -90,7 +91,7 @@ void Enemy1::Update()
 
 	for (int i = 0; i < _fieldSize.y; i++) {
 		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
+			if (_field->GetFieldData(i, j) == 1) {
 				if (AllCollision::CollCheck_Box_Circle(
 					_field->GetMinHitBox(i, j),
 					_field->GetMaxHitBox(i, j),
@@ -135,6 +136,12 @@ void Enemy1::Draw()
 
 	
 
+}
+
+void Enemy1::SetPos(int y, int x)
+{
+	_pos.y = y * 32 - 16;
+	_pos.x = x * 32 - 16;
 }
 
 void Enemy1::SetFieldData(Field* field)

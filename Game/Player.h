@@ -36,6 +36,12 @@ public:
 	const int GetCircleScale()const { return _hitCircleScale; }
 	bool GetEnable() { return _enable; }
 
+	//setter
+	void SetPos(int y, int x) {
+		_pos.y = y * 32 - 16;
+		_pos.x = x * 32 - 16;
+	}
+
 	/// <summary>
 	/// ショットした時のプレイヤー挙動
 	/// </summary>
@@ -66,6 +72,7 @@ private:
 	VECTOR _modelPos;		//3D座標
 	VECTOR _temp2DPos;		//一時的な2D座標
 	VECTOR _temp3DPos;		//一時的な3D座標
+	VECTOR _indexPos;		//フィールド座標
 	VECTOR _vec;			//移動ベクトル
 	Field* _field;			//フィールドデータ
 	VECTOR _fieldSize;		//フィールドのサイズ

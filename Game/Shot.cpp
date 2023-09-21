@@ -93,7 +93,7 @@ bool Shot::HitCheck()
 {
 	for (int i = 0; i < _fieldSize.y; i++) {
 		for (int j = 0; j < _fieldSize.x; j++) {
-			if (_field->GetFieldData(i, j)) {
+			if (_field->GetFieldData(i, j) == 1) {
 				if (AllCollision::CollCheck_Box_Circle(
 					_field->GetMinHitBox(i, j),
 					_field->GetMaxHitBox(i, j),

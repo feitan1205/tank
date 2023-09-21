@@ -157,9 +157,25 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		{
 			updateFunc_ = &GameplayingScene::FadeOutUpdate;
 		}
-		if (_enemies.size() == 0)
+		if (_enemies.size() == 0 && _maxFieldNum == _fieldNumber)
 		{
 			updateFunc_ = &GameplayingScene::FadeOutUpdate;
+		}
+		else if (_enemies.size() == 0 && _maxFieldNum > _fieldNumber)
+		{
+			_fieldNumber++;
+			_field->SetMapData(_fieldNumber);
+			for (int i = 0; i < _field->GetFieldSize().y; i++) {
+				for (int j = 0; j < _field->GetFieldSize().x; j++) {
+					if (_field->GetFieldData(i, j) == 2) {
+						_player->SetPos(i,j);
+					}
+					else if (_field->GetFieldData(i, j) == 3) {
+						_enemies.push_back(std::make_shared<Enemy1>());
+						_enemies.back()->SetPos(i,j);
+					}
+				}
+			}
 		}
 		if (input.IsTriggered(InputType::prev))
 		{
@@ -203,7 +219,9 @@ void GameplayingScene::FadeOutUpdate(const InputState& input)
 /// <param name="manager"></param>
 GameplayingScene::GameplayingScene(SceneManager& manager) :
 	Scene(manager),
-	updateFunc_(&GameplayingScene::FadeInUpdate)
+	updateFunc_(&GameplayingScene::FadeInUpdate),
+	_maxFieldNum(3),
+	_fieldNumber(0)
 {
 
 	//////////////// ƒJƒƒ‰‚Ìİ’è //////////////////
@@ -227,14 +245,26 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 
 	_per2Dto3D = (1.0f / (2500.0f + 295.0f)) * 295.0f;
 
+	_field = new Field(_fieldNumber);
 	_player = new Player();
-	_enemies.push_back(std::make_shared<Enemy1>());
-	_field = new Field(_player);
+	_field->SetMapData(_fieldNumber);
+	for (int i = 0; i < _field->GetFieldSize().y; i++) {
+		for (int j = 0; j < _field->GetFieldSize().x; j++) {
+			if (_field->GetFieldData(i, j) == 2) {
+				_player->SetPos(i, j);
+			}
+			else if (_field->GetFieldData(i, j) == 3) {
+				_enemies.push_back(std::make_shared<Enemy1>());
+				_enemies.back()->SetPos(i, j);
+			}
+		}
+	}
 	_fieldSize = _field->GetFieldSize();
 	_player->SetFieldData(_field);
 	for (auto enem : _enemies)
 	{
 		enem->SetFieldData(_field);
+		enem->SetPlayerData(_player);
 	}
 	_backScreen = new BackScreenDraw();
 	_backScreen->SetPlayerData(_player);

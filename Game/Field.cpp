@@ -1,14 +1,18 @@
 #include "Field.h"
 #include <DxLib.h>
 #include "../game.h"
-#include "Player.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 
-Field::Field(Player* player)
+Field::Field(int fieldNumber)
 {
+	
+	this->SetMapData(fieldNumber);
+
 	_modelBaseH = MV1LoadModel("data/block.mv1");
 	_modelWallH = MV1LoadModel("data/block1.mv1");
-
-	_player = player;
 
 	for (int i = 0; i < stageSizeY; i++)
 	{
@@ -44,17 +48,6 @@ Field::~Field()
 
 void Field::Update()
 {
-
-	_playerIndex.x = _player->GetPos().x / 32;
-	_playerIndex.y = _player->GetPos().y / 32;
-
-	for (int i = 0; i < stageSizeY; i++) {
-		for (int j = 0; j < stageSizeX; j++) {
-			if (_playerIndex.x + j < 28 && _playerIndex.x - j > 0) {
-			}
-		}
-	}
-
 }
 
 void Field::Draw()
@@ -80,4 +73,41 @@ void Field::Draw()
 		DrawLine(32 * i, 0, 32 * i, 32 * 16, 0xffffff);
 	}*/
 
+}
+
+void Field::SetMapData(int fieldNumber)
+{
+	std::string fieldHandle;
+	switch (fieldNumber) {
+	case 0:	fieldHandle = "data/fieldData/field0.csv"; break;
+	case 1:	fieldHandle = "data/fieldData/field1.csv"; break;
+	case 2:	fieldHandle = "data/fieldData/field2.csv"; break;
+	case 3:	fieldHandle = "data/fieldData/field3.csv"; break;
+	default:break;
+	}
+
+	std::ifstream ifs(fieldHandle);
+
+	if (!ifs)
+	{
+		printfDx("error");
+	}
+
+	std::string line;
+	int i = 0;
+	int j = 0;
+
+	while (std::getline(ifs, line)) {
+		std::string tmp = "";
+		std::istringstream stream(line);
+		// ‹æØ‚è•¶š‚ª‚È‚­‚È‚é‚Ü‚Å•¶š‚ğ‹æØ‚Á‚Ä‚¢‚­
+		while (getline(stream, tmp, ','))
+		{
+			// ‹æØ‚ç‚ê‚½•¶š‚ªtmp‚É“ü‚é
+			mapData[i][j] = atoi(tmp.c_str());
+			j++;
+		}
+		j = 0;
+		i++;  // Ÿ‚Ìl‚Ì”z—ñ‚ÉˆÚ‚é
+	}
 }

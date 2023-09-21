@@ -3,6 +3,7 @@
 #include "DxLib.h"
 
 class Field;
+class Player;
 
 class Enemy1:public EnemyBase
 {
@@ -19,6 +20,8 @@ public:
 	void UpdateCancel(bool XorY);
 	void Draw();
 
+	void SetPos(int y,int x);
+
 	void SetFieldData(Field* field);
 
 	VECTOR GetPos() { return _pos; }
@@ -27,6 +30,8 @@ public:
 	void EnemyKill();
 
 	bool IsEnable() { return _enable; }
+
+	void SetPlayerData(Player* player) { _player = player; }
 
 private:
 
@@ -43,6 +48,7 @@ private:
 	int _hitCircleScale;
 	int _vecUpdateCount;
 	VECTOR _targetIndex;
+	Player* _player;
 
 	bool _enable;
 
