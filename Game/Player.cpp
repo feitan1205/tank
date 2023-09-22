@@ -19,7 +19,7 @@ Player::Player():
 	//_pos = VGet(32 * 2, 32 * 8,0);
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
-	_modelPos = VGet(-32 * 12, 0, 0);
+	//_modelPos = VGet(32 * (-14 + 2) + 15, 32 * (-8 + 8) + 15, 0);
 
 
 	MV1SetPosition(_modelH, _modelPos);

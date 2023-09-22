@@ -8,26 +8,10 @@
 
 Field::Field(int fieldNumber)
 {
-	
-	this->SetMapData(fieldNumber);
-
 	_modelBaseH = MV1LoadModel("data/block.mv1");
 	_modelWallH = MV1LoadModel("data/block1.mv1");
-
-	for (int i = 0; i < stageSizeY; i++)
-	{
-		for (int j = 0; j < stageSizeX; j++) 
-		{
-			_modelH[0][i][j] = MV1DuplicateModel(_modelBaseH);
-			MV1SetPosition(_modelH[0][i][j], VGet(32.0f * j + 15 - 32 * 14, 0.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
-			MV1SetScale(_modelH[0][i][j], VGet(32.0f, 32.0f, 32.0f));
-			if (mapData[i][j] == 1) {
-				_modelH[1][i][j] = MV1DuplicateModel(_modelWallH);
-				MV1SetPosition(_modelH[1][i][j], VGet(32.0f * j + 15 - 32 * 14, 32.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
-				MV1SetScale(_modelH[1][i][j], VGet(32.0f, 32.0f, 32.0f));
-			}
-		}
-	}
+	
+	this->SetMapData(fieldNumber);
 
 }
 
@@ -77,14 +61,18 @@ void Field::Draw()
 
 void Field::SetMapData(int fieldNumber)
 {
-	std::string fieldHandle;
-	switch (fieldNumber) {
+	std::string fieldHandle = "data/fieldData/field";
+	/*switch (fieldNumber) {
 	case 0:	fieldHandle = "data/fieldData/field0.csv"; break;
 	case 1:	fieldHandle = "data/fieldData/field1.csv"; break;
 	case 2:	fieldHandle = "data/fieldData/field2.csv"; break;
 	case 3:	fieldHandle = "data/fieldData/field3.csv"; break;
 	default:break;
-	}
+	}*/
+
+	fieldHandle += std::to_string(fieldNumber);
+
+	fieldHandle += ".csv";
 
 	std::ifstream ifs(fieldHandle);
 
@@ -109,5 +97,30 @@ void Field::SetMapData(int fieldNumber)
 		}
 		j = 0;
 		i++;  // Ÿ‚Ìl‚Ì”z—ñ‚ÉˆÚ‚é
+	}
+
+	for (int k = 0; k < 2; k++) {
+		for (int i = 0; i < stageSizeY; i++)
+		{
+			for (int j = 0; j < stageSizeX; j++)
+			{
+				MV1DeleteModel(_modelH[k][i][j]);
+			}
+		}
+	}
+
+	for (int i = 0; i < stageSizeY; i++)
+	{
+		for (int j = 0; j < stageSizeX; j++)
+		{
+			_modelH[0][i][j] = MV1DuplicateModel(_modelBaseH);
+			MV1SetPosition(_modelH[0][i][j], VGet(32.0f * j + 15 - 32 * 14, 0.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
+			MV1SetScale(_modelH[0][i][j], VGet(32.0f, 32.0f, 32.0f));
+			if (mapData[i][j] == 1) {
+				_modelH[1][i][j] = MV1DuplicateModel(_modelWallH);
+				MV1SetPosition(_modelH[1][i][j], VGet(32.0f * j + 15 - 32 * 14, 32.0f, 32.0f * (stageSizeY - i) - 15 - 32 * 8));
+				MV1SetScale(_modelH[1][i][j], VGet(32.0f, 32.0f, 32.0f));
+			}
+		}
 	}
 }

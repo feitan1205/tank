@@ -19,7 +19,7 @@ Enemy1::Enemy1() :
 	_vec = VGet(0, 0, 0);
 	_modelH = MV1LoadModel("data/tank.mv1");
 	//_modelPos = VGet(_pos.x - Game::kScreenWidth / 2, -(_pos.y) + Game::kScreenHeight / 2, _pos.z);
-	_modelPos = VGet(32 * (20 - 14), 0.0f, 32 * (8 - 8));
+	//_modelPos = VGet(32 * (20 - 14), 0.0f, 32 * (8 - 8));
 
 	MV1SetPosition(_modelH, _modelPos);
 	//MV1SetPosition(_modelH,VGet(50, 0, 0));
@@ -140,8 +140,9 @@ void Enemy1::Draw()
 
 void Enemy1::SetPos(int y, int x)
 {
-	_pos.y = y * 32 - 16;
-	_pos.x = x * 32 - 16;
+	_pos.y = y * 32 + 16;
+	_pos.x = x * 32 + 16;
+	_modelPos = VGet(32 * (-14 + x) + 16, 0, 32 * (7 - y) + 16);
 }
 
 void Enemy1::SetFieldData(Field* field)

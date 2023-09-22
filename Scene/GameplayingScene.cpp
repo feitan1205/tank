@@ -163,16 +163,22 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		}
 		else if (_enemies.size() == 0 && _maxFieldNum > _fieldNumber)
 		{
+
+			for (auto shot : _shots) {
+				shot->ShotKill();
+			}
 			_fieldNumber++;
 			_field->SetMapData(_fieldNumber);
 			for (int i = 0; i < _field->GetFieldSize().y; i++) {
 				for (int j = 0; j < _field->GetFieldSize().x; j++) {
 					if (_field->GetFieldData(i, j) == 2) {
 						_player->SetPos(i,j);
+						_player->SetFieldData(_field);
 					}
 					else if (_field->GetFieldData(i, j) == 3) {
 						_enemies.push_back(std::make_shared<Enemy1>());
 						_enemies.back()->SetPos(i,j);
+						_enemies.back()->SetFieldData(_field);
 					}
 				}
 			}
