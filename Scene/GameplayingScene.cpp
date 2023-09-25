@@ -5,6 +5,7 @@
 #include "TitleScene.h"
 #include "SceneManager.h"
 #include "PauseScene.h"
+#include "ChangeStageScene.h"
 #include <DxLib.h>
 #include <vector>
 #include <memory>
@@ -163,25 +164,14 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		}
 		else if (_enemies.size() == 0 && _maxFieldNum > _fieldNumber)
 		{
+			if(!_changeSceneFlag) {
+				_changeSceneFlag = true;
+				_manager.PushScene(new ChangeStageScene(_manager));
+				return;
+			}
 
-			for (auto shot : _shots) {
-				shot->ShotKill();
-			}
-			_fieldNumber++;
-			_field->SetMapData(_fieldNumber);
-			for (int i = 0; i < _field->GetFieldSize().y; i++) {
-				for (int j = 0; j < _field->GetFieldSize().x; j++) {
-					if (_field->GetFieldData(i, j) == 2) {
-						_player->SetPos(i,j);
-						_player->SetFieldData(_field);
-					}
-					else if (_field->GetFieldData(i, j) == 3) {
-						_enemies.push_back(std::make_shared<Enemy1>());
-						_enemies.back()->SetPos(i,j);
-						_enemies.back()->SetFieldData(_field);
-					}
-				}
-			}
+			this->ReSetField();
+			_changeSceneFlag = false;
 		}
 		if (input.IsTriggered(InputType::prev))
 		{
@@ -219,6 +209,28 @@ void GameplayingScene::FadeOutUpdate(const InputState& input)
 
 }
 
+void GameplayingScene::ReSetField()
+{
+	for (auto shot : _shots) {
+		shot->ShotKill();
+	}
+	_fieldNumber++;
+	_field->SetMapData(_fieldNumber);
+	for (int i = 0; i < _field->GetFieldSize().y; i++) {
+		for (int j = 0; j < _field->GetFieldSize().x; j++) {
+			if (_field->GetFieldData(i, j) == 2) {
+				_player->SetPos(i, j);
+				_player->SetFieldData(_field);
+			}
+			else if (_field->GetFieldData(i, j) == 3) {
+				_enemies.push_back(std::make_shared<Enemy1>());
+				_enemies.back()->SetPos(i, j);
+				_enemies.back()->SetFieldData(_field);
+			}
+		}
+	}
+}
+
 /// <summary>
 /// ゲームプレイのコンストラクタ
 /// </summary>
@@ -227,7 +239,8 @@ GameplayingScene::GameplayingScene(SceneManager& manager) :
 	Scene(manager),
 	updateFunc_(&GameplayingScene::FadeInUpdate),
 	_maxFieldNum(3),
-	_fieldNumber(0)
+	_fieldNumber(0),
+	_changeSceneFlag(false)
 {
 
 	//////////////// カメラの設定 //////////////////

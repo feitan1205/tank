@@ -11,4 +11,9 @@ public:
 	void Update(const InputState& input);
 	void Draw();
 
+private:
+
+	int _gradH;
+	int _waitFlame;
+
 };

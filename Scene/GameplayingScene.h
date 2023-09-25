@@ -35,6 +35,7 @@ private:
 	BackScreenDraw* _backScreen;
 	float _per2Dto3D;
 	VECTOR _mousePos3D;
+	bool _changeSceneFlag;
 	
 	int _UIH;
 
@@ -50,6 +51,8 @@ private:
 
 	using UpdateFunc_t = void (GameplayingScene::*) (const InputState& input);
 	UpdateFunc_t updateFunc_ = nullptr;
+
+	void ReSetField();
 
 public:
 	GameplayingScene(SceneManager& manager);
