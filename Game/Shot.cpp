@@ -62,6 +62,11 @@ void Shot::Draw()
 	DrawSphere3D(VGet(_3DPos.x,16, _3DPos.z), 4, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), true);
 }
 
+/// <summary>
+/// ’e”­ŽË
+/// </summary>
+/// <param name="playerPos"></param>
+/// <param name="targetPos"></param>
 void Shot::Start(VECTOR playerPos, VECTOR targetPos)
 {
 	_enableFlg = true;

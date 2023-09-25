@@ -8,15 +8,16 @@
 
 Field::Field(int fieldNumber)
 {
+	//フィールドモデルのロード
 	_modelBaseH = MV1LoadModel("data/block.mv1");
 	_modelWallH = MV1LoadModel("data/block1.mv1");
 	
 	this->SetMapData(fieldNumber);
-
 }
 
 Field::~Field()
 {
+	//全モデル削除
 	MV1DeleteModel(_modelBaseH);
 	MV1DeleteModel(_modelWallH);
 	for (int k = 0; k < 2; k++) {
@@ -36,44 +37,28 @@ void Field::Update()
 
 void Field::Draw()
 {
-	
-
 	for (int i = 0; i < stageSizeY; i++) {
 		for (int j = 0; j < stageSizeX; j++) {
 			MV1DrawModel(_modelH[0][i][j]);
 			MV1DrawModel(_modelH[1][i][j]);
-			if (mapData[i][j] == 1) {
-				
+			/*if (mapData[i][j] == 1) {				
 				DrawBox(blockSizeX * j, blockSizeY * i, blockSizeX * j + blockSizeX - 1, blockSizeY * i + blockSizeY - 1,0xff0000,true);
-
-			}
+			}*/
 		}
 	}
-
-	/*for (int i = 0; i < stageSizeY; i++) {
-		DrawLine(0, 32 * i, 32 * 28, 32 * i, 0xffffff);
-	}
-	for (int i = 0; i < stageSizeX; i++) {
-		DrawLine(32 * i, 0, 32 * i, 32 * 16, 0xffffff);
-	}*/
-
 }
 
 void Field::SetMapData(int fieldNumber)
 {
-	std::string fieldHandle = "data/fieldData/field";
-	/*switch (fieldNumber) {
-	case 0:	fieldHandle = "data/fieldData/field0.csv"; break;
-	case 1:	fieldHandle = "data/fieldData/field1.csv"; break;
-	case 2:	fieldHandle = "data/fieldData/field2.csv"; break;
-	case 3:	fieldHandle = "data/fieldData/field3.csv"; break;
-	default:break;
-	}*/
 
+	//フィールドのハンドル
+	std::string fieldHandle = "data/fieldData/field";
+	
 	fieldHandle += std::to_string(fieldNumber);
 
 	fieldHandle += ".csv";
 
+	//ハンドルのcsvファイルを開く
 	std::ifstream ifs(fieldHandle);
 
 	if (!ifs)
@@ -99,6 +84,7 @@ void Field::SetMapData(int fieldNumber)
 		i++;  // 次の人の配列に移る
 	}
 
+	//モデルを一度全消去
 	for (int k = 0; k < 2; k++) {
 		for (int i = 0; i < stageSizeY; i++)
 		{
@@ -109,6 +95,7 @@ void Field::SetMapData(int fieldNumber)
 		}
 	}
 
+	//新しいマップデータに基づいてモデルを生成
 	for (int i = 0; i < stageSizeY; i++)
 	{
 		for (int j = 0; j < stageSizeX; j++)

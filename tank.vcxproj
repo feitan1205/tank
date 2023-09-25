@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Scene\ChangeStageScene.cpp" />
     <ClCompile Include="Scene\GameClearScene.cpp" />
     <ClCompile Include="Game\AllCollision.cpp" />
     <ClCompile Include="Game\BackScreenDraw.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\ChangeStageScene.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Game\AllCollision.h" />
