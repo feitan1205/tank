@@ -50,8 +50,6 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 
 	_vec = VScale(_vec, _speed);
 
-	//_pos = VAdd(_pos, _vec);
-
 	_pos.x += _vec.x;
 	_modelPos.x += _vec.x;
 
@@ -113,9 +111,9 @@ void Player::UpdateCancel(bool XorY)
 void Player::Draw()
 {
 
-	DrawFormatString(0, 0, 0xffffff, "%f;%f", _indexPos.x, _indexPos.y);
-	DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
-	DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
+	//DrawFormatString(0, 0, 0xffffff, "%f;%f", _indexPos.x, _indexPos.y);
+	//DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
+	//DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
 
 	MV1DrawModel(_modelH);
 }

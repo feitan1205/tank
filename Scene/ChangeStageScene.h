@@ -15,5 +15,7 @@ private:
 
 	int _gradH;
 	int _waitFlame;
+	float _alpha;
+	float _perAlpha;
 
 };

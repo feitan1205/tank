@@ -22,6 +22,8 @@ private:
 	VECTOR _mousePos;
 	VECTOR _reticleStart;
 	VECTOR _reticleEnd;
+	int _reticleH;
+	int _dotH;
 
 	Player* _player;
 

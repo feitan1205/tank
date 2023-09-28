@@ -194,19 +194,20 @@ void GameplayingScene::FadeOutUpdate(const InputState& input)
 	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
 	if (++_fadeTimer == fade_interval)
 	{
-		if(!_player->GetEnable())
-		{
-			_manager.ChangeScene(new GameoverScene(_manager));
-			return;
-		}
-
-		if (_enemies.size() == 0)
-		{
-			_manager.ChangeScene(new GameClearScene(_manager));
-			return;
-		}
+		
 	}
 
+	if (_fadeValue >= 255 && !_player->GetEnable())
+	{
+		_manager.ChangeScene(new GameoverScene(_manager));
+		return;
+	}
+
+	if (_fadeValue >= 255 && _enemies.size() == 0)
+	{
+		_manager.ChangeScene(new GameClearScene(_manager));
+		return;
+	}
 }
 
 void GameplayingScene::ReSetField()
@@ -311,7 +312,6 @@ void GameplayingScene::Draw()
 	for (auto shot : _shots) {
 		shot->Draw();
 	}
-	_backScreen->Draw();
 	//プレイヤー描画
 	_player->Draw();
 	//エネミー描画
@@ -322,6 +322,7 @@ void GameplayingScene::Draw()
 
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, _UIH, true);
 
+	_backScreen->Draw();
 	//フェード用
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);

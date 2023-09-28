@@ -15,6 +15,25 @@ void GameoverScene::FadeInUpdate(const InputState& input)
 
 void GameoverScene::NormalUpdate(const InputState& input)
 {
+
+	if (!_fadeUpFlag) {
+		_textFadeValue = static_cast<int>(255 * (static_cast<float>(_textFadeTimer) /
+			static_cast<float>(_textFadeInterval)));
+		if (--_textFadeTimer == 0)
+		{
+			_textFadeValue = 0;
+			_fadeUpFlag = true;
+		}
+	}
+	if (_fadeUpFlag) {
+		_textFadeValue = static_cast<int>(255 * (static_cast<float>(_textFadeTimer) / static_cast<float>(_textFadeInterval)));
+		if (++_textFadeTimer == _textFadeInterval)
+		{
+			_textFadeValue = 255;
+			_fadeUpFlag = false;
+		}
+	}
+
 	if (input.IsTriggered(InputType::next))
 	{
 		_updateFunc = &GameoverScene::FadeOutUpdate;
@@ -41,6 +60,8 @@ GameoverScene::GameoverScene(SceneManager& manager) :
 	Scene(manager),
 	_updateFunc(&GameoverScene::FadeInUpdate)
 {
+	_gameOverH = LoadGraph("data/2DData/gameover.png");
+	_gameOverTextH = LoadGraph("data/2DData/overtext.png");
 }
 
 
@@ -51,8 +72,11 @@ void GameoverScene::Update(const InputState& input)
 
 void GameoverScene::Draw()
 {
-	DrawRotaGraph(320, 240, 0.5, 0.0, _gameOverH, true);
+	DrawExtendGraph(0, 0, 1920, 1080, _gameOverH, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
-	DrawBox(0, 0, 640, 480, _fadeColor, true);
+	DrawBox(0, 0, 1920, 1080, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _textFadeValue);
+	DrawExtendGraph(0, 0, 1920, 1080, _gameOverTextH, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

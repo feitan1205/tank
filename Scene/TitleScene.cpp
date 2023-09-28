@@ -83,7 +83,7 @@ void TitleScene::Update(const InputState& input)
 
 void TitleScene::Draw()
 {
-	DrawFormatString(100, 100, 0xffffff, "title");
+	//DrawFormatString(100, 100, 0xffffff, "title");
 	DrawExtendGraph(0, 0,Game::kScreenWidth,Game::kScreenHeight, _titleH, true);
 
 	//今から書く画像と、すでに描画されているスクリーンとの

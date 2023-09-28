@@ -3,14 +3,14 @@
 #include "BackScreenDraw.h"
 #include "Player.h"
 
-
-
 BackScreenDraw::BackScreenDraw()
 {
 	_reticleStart.x = -10;
 	_reticleStart.y = -10;
 	_reticleEnd.x = 10;
 	_reticleEnd.y = 10;
+	_reticleH = LoadGraph("data/2DData/reticle.png");
+	_dotH = LoadGraph("data/2DData/dot.png");
 }
 
 BackScreenDraw::~BackScreenDraw()
@@ -19,23 +19,19 @@ BackScreenDraw::~BackScreenDraw()
 
 void BackScreenDraw::Updata()
 {
-
-
-
 }
 
 void BackScreenDraw::Draw()
 {
-	/*DrawLine(_player->GetPos().x, _player->GetPos().y, _mousePos.x, _mousePos.y, 0xffffff);
-
-	DrawCircle(_mousePos.x, _mousePos.y, 4, 0xffffff, false);
-	DrawCircle(_mousePos.x, _mousePos.y, 3, 0x00ff00, false);
-
-	DrawLine(_mousePos.x + _reticleStart.x, _mousePos.y + _reticleStart.y, _mousePos.x + _reticleStart.x + 5, _mousePos.y + _reticleStart.y + 5, 0x00ff00, true);
-	DrawLine(_mousePos.x + _reticleEnd.x, _mousePos.y + _reticleStart.y, _mousePos.x + _reticleEnd.x - 5, _mousePos.y + _reticleStart.y + 5, 0x00ff00, true);
-	DrawLine(_mousePos.x + _reticleStart.x, _mousePos.y + _reticleEnd.y, _mousePos.x + _reticleStart.x + 5, _mousePos.y + _reticleEnd.y - 5, 0x00ff00, true);
-	DrawLine(_mousePos.x + _reticleEnd.x, _mousePos.y + _reticleEnd.y, _mousePos.x + _reticleEnd.x - 5, _mousePos.y + _reticleEnd.y - 5, 0x00ff00, true);*/
 	DrawLine3D(_player->GetModelPos(), _mousePos3D, 0xff0000);
+	DrawRotaGraph(_mousePos.x, _mousePos.y,
+		0.7, 0,
+		_reticleH,true,true);
+	for (int i = 1; i < 7; i++) {
+		DrawRotaGraph(((_mousePos.x - _player->GetModelPos().x) / 7 * i), ((_mousePos.y - _player->GetModelPos().y) / 7 * i),
+			0.7, 0,
+			_dotH, true, true);
+	}
 }
 
 void BackScreenDraw::SetMousePos(int posX, int posY)
