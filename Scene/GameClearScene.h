@@ -10,7 +10,8 @@ class GameClearScene : public Scene
 private:
 
 
-	int _gameOverH = -1;
+	int _gameClearH = -1;
+	int _gameClearTextH = -1;
 
 	static constexpr int fade_interval = 60;
 

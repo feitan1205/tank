@@ -49,12 +49,20 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 
 	//ショット発射
 	{
-		if (_shots.size() < maxShotNum) {
+		if (_playerShot.size() < maxShotNum) {
 			if (input.IsTriggered(InputType::next)) {
-				_shots.push_back(std::make_shared<Shot>());
-				_shots.back()->Start(_player->GetModelPos(), _mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
-				_shots.back()->SetFieldData(_field);
+				_playerShot.push_back(std::make_shared<Shot>());
+				_playerShot.back()->Start(_player->GetModelPos(), _mousePos3D);//VGet(static_cast<float>(_mousePosX), static_cast<float>(_mousePosY),0)
+				_playerShot.back()->SetFieldData(_field);
 				_player->Shot();
+			}
+		}
+		for (auto enem : _enemies) {
+			if (enem->GetShotFlg()) {
+				_enemyShot.push_back(std::make_shared<Shot>());
+				_enemyShot.back()->Start(enem->GetModelPos(), _player->GetModelPos());
+				_enemyShot.back()->SetFieldData(_field);
+				enem->Shot();
 			}
 		}
 	}
@@ -71,7 +79,10 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		//フィールドアップデート
 		_field->Update();
 		//ショットアップデート
-		for (auto shot : _shots) {
+		for (auto shot : _playerShot) {
+			shot->Update();
+		}
+		for (auto shot : _enemyShot) {
 			shot->Update();
 		}
 		//バックスクリーンアップデート
@@ -80,16 +91,44 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 
 	//ショット同士の当たり判定
 	{
-		for (int i = 0; i < _shots.size(); i++) {
-			for (int j = 0; j < _shots.size(); j++) {
+		for (int i = 0; i < _playerShot.size(); i++) {
+			for (int j = 0; j < _playerShot.size(); j++) {
 				if (i == j)continue;
 				if (AllCollision::CollCheck_Circle_Circle(
-					_shots[i]->GetPos(),
-					_shots[i]->GetCircleScale(),
-					_shots[j]->GetPos(),
-					_shots[j]->GetCircleScale())) {
-					_shots[i]->ShotKill();
-					_shots[j]->ShotKill();
+					_playerShot[i]->GetPos(),
+					_playerShot[i]->GetCircleScale(),
+					_playerShot[j]->GetPos(),
+					_playerShot[j]->GetCircleScale())) {
+					_playerShot[i]->ShotKill();
+					_playerShot[j]->ShotKill();
+				}
+			}
+		}
+
+		for (int i = 0; i < _enemyShot.size(); i++) {
+			for (int j = 0; j < _enemyShot.size(); j++) {
+				if (i == j)continue;
+				if (AllCollision::CollCheck_Circle_Circle(
+					_enemyShot[i]->GetPos(),
+					_enemyShot[i]->GetCircleScale(),
+					_enemyShot[j]->GetPos(),
+					_enemyShot[j]->GetCircleScale())) {
+					_enemyShot[i]->ShotKill();
+					_enemyShot[j]->ShotKill();
+				}
+			}
+		}
+
+		for (int i = 0; i < _playerShot.size(); i++) {
+			for (int j = 0; j < _enemyShot.size(); j++) {
+				//if (i == j)continue;
+				if (AllCollision::CollCheck_Circle_Circle(
+					_playerShot[i]->GetPos(),
+					_playerShot[i]->GetCircleScale(),
+					_enemyShot[j]->GetPos(),
+					_enemyShot[j]->GetCircleScale())) {
+					_playerShot[i]->ShotKill();
+					_enemyShot[j]->ShotKill();
 				}
 			}
 		}
@@ -97,28 +136,28 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 
 	//プレイヤー、エネミーとショットの当たり判定
 	{
-		for (int i = 0; i < _shots.size(); i++) {
+		for (int i = 0; i < _playerShot.size(); i++) {
 
 			if (AllCollision::CollCheck_Circle_Circle(
-				_shots[i]->GetPos(),
-				_shots[i]->GetCircleScale(),
+				_playerShot[i]->GetPos(),
+				_playerShot[i]->GetCircleScale(),
 				_player->GetPos(),
 				_player->GetCircleScale())) {
 				//printfDx("dasdfasadf");
-				_shots[i]->ShotKill();
+				_playerShot[i]->ShotKill();
 				_player->Kill();
 			}
 
 			for (auto enem : _enemies)
 			{
 				if (AllCollision::CollCheck_Circle_Circle(
-					_shots[i]->GetPos(),
-					_shots[i]->GetCircleScale(),
+					_playerShot[i]->GetPos(),
+					_playerShot[i]->GetCircleScale(),
 					enem->GetPos(),
 					enem->GetCircleScale())) {
 					printfDx("dasdfasadf");
 					enem->EnemyKill();
-					_shots[i]->ShotKill();
+					_playerShot[i]->ShotKill();
 				}
 			}
 		}
@@ -126,16 +165,27 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 	
 	//ショット削除
 	{
-		auto shotRmIt = std::remove_if        // 条件に合致したものを消す
-		(_shots.begin(),			// 対象はenemies_の最初から
-			_shots.end(),			// 最後まで
+		auto playerShotRmIt = std::remove_if        // 条件に合致したものを消す
+		(_playerShot.begin(),			// 対象はenemies_の最初から
+			_playerShot.end(),			// 最後まで
 		   // 消えてもらう条件を表すラムダ式
 		   // trueだと消える。falseだと消えない
 			[](const std::shared_ptr<Shot>& shot)
 			{
 				return !shot->IsEnabled();
 			});
-		_shots.erase(shotRmIt, _shots.end());
+		_playerShot.erase(playerShotRmIt, _playerShot.end());
+
+		auto enemyShotRmIt = std::remove_if        // 条件に合致したものを消す
+		(_enemyShot.begin(),			// 対象はenemies_の最初から
+			_enemyShot.end(),			// 最後まで
+		   // 消えてもらう条件を表すラムダ式
+		   // trueだと消える。falseだと消えない
+			[](const std::shared_ptr<Shot>& shot)
+			{
+				return !shot->IsEnabled();
+			});
+		_enemyShot.erase(enemyShotRmIt, _enemyShot.end());
 	}
 
 	//エネミー削除
@@ -212,7 +262,10 @@ void GameplayingScene::FadeOutUpdate(const InputState& input)
 
 void GameplayingScene::ReSetField()
 {
-	for (auto shot : _shots) {
+	for (auto shot : _playerShot) {
+		shot->ShotKill();
+	}
+	for (auto shot : _enemyShot) {
 		shot->ShotKill();
 	}
 	_fieldNumber++;
@@ -309,7 +362,10 @@ void GameplayingScene::Draw()
 	//フィールド描画
 	_field->Draw();
 	//ショット描画
-	for (auto shot : _shots) {
+	for (auto shot : _playerShot) {
+		shot->Draw();
+	}
+	for (auto shot : _enemyShot) {
 		shot->Draw();
 	}
 	//プレイヤー描画

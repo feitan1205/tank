@@ -17,16 +17,20 @@ Player::Player():
 	_enable(true)
 {
 	_vec = VGet(0, 0, 0);
-	_modelH = MV1LoadModel("data/tank.mv1");
+	_caterpillarModelH = MV1LoadModel("data/chata.mv1");
+	_cockpitModelH = MV1LoadModel("data/cockpit.mv1");
 
-	MV1SetPosition(_modelH, _modelPos);
-	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetScale(_caterpillarModelH, VGet(20.0f, 23.0f, 23.0f));
+	MV1SetPosition(_cockpitModelH, _modelPos);
+	MV1SetScale(_cockpitModelH, VGet(20.0f, 23.0f, 23.0f));
 }
 
 
 Player::~Player()
 {
-	MV1DeleteModel(_modelH);
+	MV1DeleteModel(_caterpillarModelH);
+	MV1DeleteModel(_cockpitModelH);
 }
 
 void Player::Update(const InputState& input,const VECTOR mousePos3D)
@@ -39,7 +43,9 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 	_temp2DPos = _pos;
 	_temp3DPos = _modelPos;
 
-	if (input.IsPressed(InputType::up)) _vec = VAdd(_vec,VGet(0.0f, -1.0f, 0.0f));
+	float k = 0;
+
+	if (input.IsPressed(InputType::up)) _vec = VAdd(_vec, VGet(0.0f, -1.0f, 0.0f));
 	if (input.IsPressed(InputType::down)) _vec = VAdd(_vec, VGet(0.0f, 1.0f, 0.0f));
 	if (input.IsPressed(InputType::right)) _vec = VAdd(_vec, VGet(1.0f, 0.0f, 0.0f));
 	if (input.IsPressed(InputType::left)) _vec = VAdd(_vec, VGet(-1.0f, 0.0f, 0.0f));
@@ -88,11 +94,18 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 
 	_modelPos = VGet(_modelPos.x, _modelPos.y, _modelPos.z);
 
-	MV1SetPosition(_modelH, _modelPos);
-	
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetPosition(_cockpitModelH, _modelPos);
+
 	_indexPos.x = static_cast<int>(_pos.x) / 32;
 	_indexPos.y = static_cast<int>(_pos.y) / 32;
 	_vec = VGet(0, 0, 0);
+
+	t += 0.1f;
+
+	MV1SetRotationXYZ(_cockpitModelH, VGet(0, t, 0));
+	MV1SetRotationXYZ(_caterpillarModelH, VGet(0, -(t), 0));
+
 
 }
 
@@ -115,7 +128,8 @@ void Player::Draw()
 	//DrawBox(_pos.x - 15, _pos.y - 15, _pos.x + 16, _pos.y + 16, 0x00ff00, true);
 	//DrawCircle(_pos.x, _pos.y, _hitCircleScale, 0x0000ff, true);
 
-	MV1DrawModel(_modelH);
+	MV1DrawModel(_caterpillarModelH);
+	MV1DrawModel(_cockpitModelH);
 }
 
 void Player::SetFieldData(Field* field)

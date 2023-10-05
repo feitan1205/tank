@@ -21,6 +21,8 @@ Enemy1::Enemy1() :
 
 	MV1SetPosition(_modelH, _modelPos);
 	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
+
+	_shotCount = GetRand(200);
 }
 
 
@@ -31,6 +33,17 @@ Enemy1::~Enemy1()
 
 void Enemy1::Update()
 {
+	_shotStiffCount--;
+
+	if (_shotStiffCount > 0) {
+		return;
+	}
+
+	_shotCount--;
+	if (_shotCount < 0) {
+		_shotFlg = true;
+	}
+
 	_temp2DPos = _pos;
 	_temp3DPos = _modelPos;
 
@@ -128,4 +141,11 @@ void Enemy1::SetFieldData(Field* field)
 void Enemy1::EnemyKill()
 {
 	_enable = false;
+}
+
+void Enemy1::Shot()
+{
+	_shotFlg = false;
+	_shotCount = GetRand(300);
+	_shotStiffCount = 5;
 }

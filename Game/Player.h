@@ -67,7 +67,8 @@ public:
 
 private:
 
-	int _modelH;
+	int _caterpillarModelH;
+	int _cockpitModelH;
 
 	VECTOR _pos;			//2D座標
 	VECTOR _modelPos;		//3D座標
@@ -82,6 +83,7 @@ private:
 	int _shotStiffCount;	//ショット後の硬直時間
 	int _lifePoint;			//持ち自機数
 	bool _enable;			//存在フラグ
+	float t = 0.0f;
 
 };
 

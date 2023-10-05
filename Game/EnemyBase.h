@@ -24,6 +24,7 @@ public:
 	virtual void SetFieldData(Field* field) = 0;
 
 	virtual VECTOR GetPos() = 0;
+	virtual VECTOR GetModelPos() = 0;
 	virtual int GetCircleScale() = 0;
 
 	virtual void EnemyKill() = 0;
@@ -31,6 +32,9 @@ public:
 	virtual bool IsEnable() = 0;
 
 	virtual void SetPlayerData(Player* player) = 0;
+
+	virtual void Shot() = 0;
+	virtual bool GetShotFlg() = 0;
 
 private:
 

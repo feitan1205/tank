@@ -25,7 +25,8 @@ private:
 	//ゲームプレイデータ
 	Player* _player;
 	std::vector<std::shared_ptr<EnemyBase>> _enemies;
-	std::vector<std::shared_ptr<Shot>> _shots;
+	std::vector<std::shared_ptr<Shot>> _playerShot;
+	std::vector<std::shared_ptr<Shot>> _enemyShot;
 	int _maxFieldNum;
 	int _fieldNumber;
 	Field* _field;

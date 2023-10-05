@@ -41,6 +41,8 @@ GameClearScene::GameClearScene(SceneManager& manager) :
 	Scene(manager),
 	_updateFunc(&GameClearScene::FadeInUpdate)
 {
+	_gameClearH = LoadGraph("data/2DData/gameclear.png");
+	_gameClearTextH = LoadGraph("data/2DData/overtext.png");
 }
 
 
@@ -51,8 +53,8 @@ void GameClearScene::Update(const InputState& input)
 
 void GameClearScene::Draw()
 {
-	DrawRotaGraph(320, 240, 0.5, 0.0, _gameOverH, true);
+	DrawExtendGraph(0,0,1920, 1080,_gameClearH, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
-	DrawBox(0, 0, 640, 480, _fadeColor, true);
+	DrawBox(0, 0, 1920, 1080, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

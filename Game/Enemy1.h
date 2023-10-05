@@ -25,6 +25,7 @@ public:
 	void SetFieldData(Field* field);
 
 	VECTOR GetPos() { return _pos; }
+	VECTOR GetModelPos() { return _modelPos; }
 	int GetCircleScale() { return _hitCircleScale; }
 
 	void EnemyKill();
@@ -32,6 +33,9 @@ public:
 	bool IsEnable() { return _enable; }
 
 	void SetPlayerData(Player* player) { _player = player; }
+
+	void Shot();
+	bool GetShotFlg() { return _shotFlg; }
 
 private:
 
@@ -49,8 +53,10 @@ private:
 	int _vecUpdateCount;
 	VECTOR _targetIndex;
 	Player* _player;
-
+	int _shotCount;
+	bool _shotFlg;
 	bool _enable;
+	int _shotStiffCount;
 
 };
 
