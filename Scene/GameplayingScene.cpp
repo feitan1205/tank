@@ -161,6 +161,32 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 				}
 			}
 		}
+
+		for (int i = 0; i < _enemyShot.size(); i++) {
+
+			if (AllCollision::CollCheck_Circle_Circle(
+				_enemyShot[i]->GetPos(),
+				_enemyShot[i]->GetCircleScale(),
+				_player->GetPos(),
+				_player->GetCircleScale())) {
+				//printfDx("dasdfasadf");
+				_enemyShot[i]->ShotKill();
+				_player->Kill();
+			}
+
+			for (auto enem : _enemies)
+			{
+				if (AllCollision::CollCheck_Circle_Circle(
+					_enemyShot[i]->GetPos(),
+					_enemyShot[i]->GetCircleScale(),
+					enem->GetPos(),
+					enem->GetCircleScale())) {
+					printfDx("dasdfasadf");
+					enem->EnemyKill();
+					_enemyShot[i]->ShotKill();
+				}
+			}
+		}
 	}
 	
 	//ƒVƒ‡ƒbƒgíœ

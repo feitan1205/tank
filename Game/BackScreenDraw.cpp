@@ -27,11 +27,16 @@ void BackScreenDraw::Draw()
 	DrawRotaGraph(_mousePos.x, _mousePos.y,
 		0.7, 0,
 		_reticleH,true,true);
-	for (int i = 1; i < 7; i++) {
-		DrawRotaGraph(((_mousePos.x - _player->GetPos().x) / 7 * i), ((_mousePos.y - _player->GetPos().y) / 7 * i),
+
+	DrawGraph(_player->GetModelPos().x, _player->GetModelPos().z, _dotH, true);
+
+	DrawFormatString(100, 100, 0xffffff, "%f,%f", true);
+
+	/*for (int i = 1; i < 7; i++) {
+		DrawRotaGraph(((_mousePos.x - _player->GetModelPos().x) / 7 * i), ((_mousePos.y - _player->GetModelPos().y) / 7 * i),
 			0.7, 0,
 			_dotH, true, true);
-	}
+	}*/
 }
 
 void BackScreenDraw::SetMousePos(int posX, int posY)

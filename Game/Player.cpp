@@ -101,7 +101,7 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 	_indexPos.y = static_cast<int>(_pos.y) / 32;
 	_vec = VGet(0, 0, 0);
 
-	t += 0.1f;
+	//t += 0.1f;
 
 	MV1SetRotationXYZ(_cockpitModelH, VGet(0, t, 0));
 	MV1SetRotationXYZ(_caterpillarModelH, VGet(0, -(t), 0));

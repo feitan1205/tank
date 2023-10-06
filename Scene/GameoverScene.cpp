@@ -49,6 +49,7 @@ void GameoverScene::NormalUpdate(const InputState& input)
 void GameoverScene::FadeOutUpdate(const InputState& input)
 {
 	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	_textFadeValue = 255 - _fadeValue;
 	if (++_fadeTimer == fade_interval)
 	{
 		_manager.ChangeScene(new TitleScene(_manager));
