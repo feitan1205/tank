@@ -1,5 +1,6 @@
 #include "DxLib.h"
 
+#include "../game.h"
 #include "BackScreenDraw.h"
 #include "Player.h"
 
@@ -28,7 +29,7 @@ void BackScreenDraw::Draw()
 		0.7, 0,
 		_reticleH,true,true);
 
-	DrawGraph(_player->GetModelPos().x, _player->GetModelPos().z, _dotH, true);
+	DrawGraph(_player->GetModelPos().x + (Game::kScreenWidth / 2), _player->GetModelPos().z + (Game::kScreenHeight / 2), _dotH, true);
 
 	DrawFormatString(100, 100, 0xffffff, "%f,%f", true);
 

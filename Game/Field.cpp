@@ -9,8 +9,8 @@
 Field::Field(int fieldNumber)
 {
 	//フィールドモデルのロード
-	_modelBaseH = MV1LoadModel("data/block.mv1");
-	_modelWallH = MV1LoadModel("data/block1.mv1");
+	_modelBaseH = MV1LoadModel("data/model/block.mv1");
+	_modelWallH = MV1LoadModel("data/model/block1.mv1");
 	
 	this->SetMapData(fieldNumber);
 }

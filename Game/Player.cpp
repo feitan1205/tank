@@ -17,8 +17,8 @@ Player::Player():
 	_enable(true)
 {
 	_vec = VGet(0, 0, 0);
-	_caterpillarModelH = MV1LoadModel("data/chata.mv1");
-	_cockpitModelH = MV1LoadModel("data/cockpit.mv1");
+	_caterpillarModelH = MV1LoadModel("data/model/pChata.mv1");
+	_cockpitModelH = MV1LoadModel("data/model/pCockpit.mv1");
 
 	MV1SetPosition(_caterpillarModelH, _modelPos);
 	MV1SetScale(_caterpillarModelH, VGet(20.0f, 23.0f, 23.0f));

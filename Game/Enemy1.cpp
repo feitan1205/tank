@@ -17,10 +17,16 @@ Enemy1::Enemy1() :
 {
 	_pos = VGet(32 * 20, 32 * 8, 0);
 	_vec = VGet(0, 0, 0);
-	_modelH = MV1LoadModel("data/tank.mv1");
+//	_modelH = MV1LoadModel("data/tank.mv1");
+	_caterpillarModelH = MV1LoadModel("data/model/e1Chata.mv1");;
+	_cockpitModelH = MV1LoadModel("data/model/e1Cockpit.mv1");;
 
-	MV1SetPosition(_modelH, _modelPos);
-	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
+//	MV1SetPosition(_modelH, _modelPos);
+//	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetScale(_caterpillarModelH, VGet(20.0f, 23.0f, 23.0f));
+	MV1SetPosition(_cockpitModelH, _modelPos);
+	MV1SetScale(_cockpitModelH, VGet(20.0f, 23.0f, 23.0f));
 
 	_shotCount = GetRand(200);
 }
@@ -28,7 +34,9 @@ Enemy1::Enemy1() :
 
 Enemy1::~Enemy1()
 {
-	MV1DeleteModel(_modelH);
+//	MV1DeleteModel(_modelH);
+	MV1DeleteModel(_caterpillarModelH);
+	MV1DeleteModel(_cockpitModelH);
 }
 
 void Enemy1::Update()
@@ -100,7 +108,9 @@ void Enemy1::Update()
 		}
 	}
 
-	MV1SetPosition(_modelH, _modelPos);
+//	MV1SetPosition(_modelH, _modelPos);
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetPosition(_cockpitModelH, _modelPos);
 
 }
 
@@ -120,7 +130,9 @@ void Enemy1::Draw()
 {
 
 	if (_enable) {
-		MV1DrawModel(_modelH);
+//		MV1DrawModel(_modelH);
+		MV1DrawModel(_caterpillarModelH);
+		MV1DrawModel(_cockpitModelH);
 	}
 	
 }

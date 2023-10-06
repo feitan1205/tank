@@ -57,6 +57,8 @@ private:
 	bool _shotFlg;
 	bool _enable;
 	int _shotStiffCount;
+	int _caterpillarModelH;
+	int _cockpitModelH;
 
 };
 
