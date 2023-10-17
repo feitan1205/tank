@@ -23,9 +23,7 @@ Enemy1::Enemy1() :
 
 //	MV1SetPosition(_modelH, _modelPos);
 //	MV1SetScale(_modelH, VGet(20.0f, 23.0f, 23.0f));
-	MV1SetPosition(_caterpillarModelH, _modelPos);
 	MV1SetScale(_caterpillarModelH, VGet(20.0f, 23.0f, 23.0f));
-	MV1SetPosition(_cockpitModelH, _modelPos);
 	MV1SetScale(_cockpitModelH, VGet(20.0f, 23.0f, 23.0f));
 
 	_shotCount = GetRand(200);
@@ -142,6 +140,8 @@ void Enemy1::SetPos(int y, int x)
 	_pos.y = y * 32 + 16;
 	_pos.x = x * 32 + 16;
 	_modelPos = VGet(32 * (-14 + x) + 16, 0, 32 * (7 - y) + 16);
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetPosition(_cockpitModelH, _modelPos);
 }
 
 void Enemy1::SetFieldData(Field* field)

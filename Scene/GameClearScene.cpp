@@ -15,6 +15,24 @@ void GameClearScene::FadeInUpdate(const InputState& input)
 
 void GameClearScene::NormalUpdate(const InputState& input)
 {
+	if (!_fadeUpFlag) {
+		_textFadeValue = static_cast<int>(255 * (static_cast<float>(_textFadeTimer) /
+			static_cast<float>(_textFadeInterval)));
+		if (--_textFadeTimer == 0)
+		{
+			_textFadeValue = 0;
+			_fadeUpFlag = true;
+		}
+	}
+	if (_fadeUpFlag) {
+		_textFadeValue = static_cast<int>(255 * (static_cast<float>(_textFadeTimer) / static_cast<float>(_textFadeInterval)));
+		if (++_textFadeTimer == _textFadeInterval)
+		{
+			_textFadeValue = 255;
+			_fadeUpFlag = false;
+		}
+	}
+
 	if (input.IsTriggered(InputType::next))
 	{
 		_updateFunc = &GameClearScene::FadeOutUpdate;
@@ -30,6 +48,7 @@ void GameClearScene::NormalUpdate(const InputState& input)
 void GameClearScene::FadeOutUpdate(const InputState& input)
 {
 	_fadeValue = 255 * static_cast<float>(_fadeTimer) / static_cast<float>(fade_interval);
+	_textFadeValue -= _fadeValue;
 	if (++_fadeTimer == fade_interval)
 	{
 		_manager.ChangeScene(new TitleScene(_manager));
@@ -53,8 +72,11 @@ void GameClearScene::Update(const InputState& input)
 
 void GameClearScene::Draw()
 {
-	DrawExtendGraph(0,0,1920, 1080,_gameClearH, true);
+	DrawExtendGraph(0, 0, 1920, 1080, _gameClearH, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);
 	DrawBox(0, 0, 1920, 1080, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _textFadeValue);
+	DrawExtendGraph(0, 0, 1920, 1080, _gameClearTextH, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

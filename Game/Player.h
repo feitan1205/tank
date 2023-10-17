@@ -37,11 +37,7 @@ public:
 	bool GetEnable() { return _enable; }
 
 	//setter
-	void SetPos(int y, int x) {
-		_pos.y = y * 32 + 16;
-		_pos.x = x * 32 + 16;
-		_modelPos = VGet(32 * (-14 + x) + 16, 0, 32 * (7 - y) + 16);
-	}
+	void SetPos(int y, int x);
 
 	/// <summary>
 	/// ショットした時のプレイヤー挙動

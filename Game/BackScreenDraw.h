@@ -11,6 +11,7 @@ public:
 
 	void Updata();
 	void Draw();
+	void GuideDraw();
 
 	void SetMousePos(int posX, int posY);
 	void SetMousePos3D(VECTOR mousePos3D);
@@ -22,6 +23,7 @@ private:
 	VECTOR _mousePos;
 	VECTOR _reticleStart;
 	VECTOR _reticleEnd;
+	VECTOR _playerModelPos2D;
 	int _reticleH;
 	int _dotH;
 

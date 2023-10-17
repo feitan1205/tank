@@ -45,6 +45,12 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 		//_mousePos3D.y = 18.0f;
 		_backScreen->SetMousePos(_mousePosX, _mousePosY);
 		_backScreen->SetMousePos3D(_mousePos3D);
+		if (input.IsPressed(InputType::guide)) {
+			_guideDrawFlg = true;
+		}
+		else {
+			_guideDrawFlg = false;
+		}
 	}
 
 	//ショット発射
@@ -318,7 +324,7 @@ void GameplayingScene::ReSetField()
 GameplayingScene::GameplayingScene(SceneManager& manager) :
 	Scene(manager),
 	updateFunc_(&GameplayingScene::FadeInUpdate),
-	_maxFieldNum(3),
+	_maxFieldNum(5),
 	_fieldNumber(0),
 	_changeSceneFlag(false)
 {
@@ -405,6 +411,9 @@ void GameplayingScene::Draw()
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, _UIH, true);
 
 	_backScreen->Draw();
+	if (_guideDrawFlg) {
+		_backScreen->GuideDraw();
+	}
 	//フェード用
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, _fadeValue);

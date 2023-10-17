@@ -20,9 +20,7 @@ Player::Player():
 	_caterpillarModelH = MV1LoadModel("data/model/pChata.mv1");
 	_cockpitModelH = MV1LoadModel("data/model/pCockpit.mv1");
 
-	MV1SetPosition(_caterpillarModelH, _modelPos);
 	MV1SetScale(_caterpillarModelH, VGet(20.0f, 23.0f, 23.0f));
-	MV1SetPosition(_cockpitModelH, _modelPos);
 	MV1SetScale(_cockpitModelH, VGet(20.0f, 23.0f, 23.0f));
 }
 
@@ -107,6 +105,14 @@ void Player::Update(const InputState& input,const VECTOR mousePos3D)
 	MV1SetRotationXYZ(_caterpillarModelH, VGet(0, -(t), 0));
 
 
+}
+
+void Player::SetPos(int y, int x) {
+	_pos.y = y * 32 + 16;
+	_pos.x = x * 32 + 16;
+	_modelPos = VGet(32 * (-14 + x) + 16, 0, 32 * (7 - y) + 16);
+	MV1SetPosition(_caterpillarModelH, _modelPos);
+	MV1SetPosition(_cockpitModelH, _modelPos);
 }
 
 void Player::UpdateCancel(bool XorY)

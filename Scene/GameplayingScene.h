@@ -37,6 +37,7 @@ private:
 	float _per2Dto3D;
 	VECTOR _mousePos3D;
 	bool _changeSceneFlag;
+	bool _guideDrawFlg;
 	
 	int _UIH;
 
