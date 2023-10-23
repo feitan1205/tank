@@ -161,7 +161,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 					_playerShot[i]->GetCircleScale(),
 					enem->GetPos(),
 					enem->GetCircleScale())) {
-					printfDx("dasdfasadf");
+					//printfDx("dasdfasadf");
 					enem->EnemyKill();
 					_playerShot[i]->ShotKill();
 				}
@@ -187,7 +187,7 @@ void GameplayingScene::NormalUpdate(const InputState& input)
 					_enemyShot[i]->GetCircleScale(),
 					enem->GetPos(),
 					enem->GetCircleScale())) {
-					printfDx("dasdfasadf");
+					//printfDx("dasdfasadf");
 					enem->EnemyKill();
 					_enemyShot[i]->ShotKill();
 				}
